@@ -415,7 +415,7 @@ int junkmail(void)
      handy than hardwiring this into the code. hm */
     {"Lisp-Help", 9},		{"List-Unsubscribe", 16},
     {"List-Subscribe", 14},	{"List-Post", 9},
-    {"List-Owner", 10},		{"List-Archive, 12},
+    {"List-Owner", 10},		{"List-Archive", 12},
     {"-request", 8},		{"postmaster", 10},	{"uucp", 4},
     {"mailer-daemon", 13},	{"mailer", 6},		{"-relay", 6},
     {"-activists", 10},           {"-programmers", 12},     {NULL, 0},
