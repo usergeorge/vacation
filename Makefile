@@ -19,8 +19,6 @@ else
   CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall
 endif
 endif
-# Set this option to = -DPOSTFIX if you use Postfix MTA
-PFLAGS          = -DPOSTFIX
 LFLAGS         = -Xlinker -warn-common
 
 LIBS		= -lgdbm

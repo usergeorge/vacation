@@ -1,3 +1,6 @@
+00/11/23:
+- Bug fix, I introduced a small bug in the sendmail sending routine.
+
 00/11/22: 
 - Added User-Agent to Vacation
 - Added some changes to vacation. Also a change to the Makefile

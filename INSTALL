@@ -1,13 +1,10 @@
-To install Vacation: edit Makefile. Please note that there is one option
-that can really only be changed and that is PFLAGS, set this to -DPOSTFIX if
-you use Postfix. This is due to differences between the command line for
-Postfix and Sendmail.
+To install Vacation: edit Makefile.
 
 Now type 'make install'.
 This should compile and install both the vacation binary and the man page at
 their desired locations.
 
-N.B. If you encounter any difficulty in installing cucipop, let me know.
+N.B. If you encounter any difficulty in installing vacation, let me know.
 
 For more info about the programs, see the man pages.
  
