@@ -1,3 +1,7 @@
+00/07/14:
+- Patched vacation.c to disable a possible security problem.
+  This may give a remote user hen chance to execute programs.
+
 00/05/29:
 - Added README.smrsh by Peter Soos.
 
