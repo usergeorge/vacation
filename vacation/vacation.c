@@ -413,6 +413,9 @@ int junkmail(void)
   /* I am not sure whether this list is near to complete. Maybe a 
      separate file containing all the exceptions would be more
      handy than hardwiring this into the code. hm */
+    {"Lisp-Help", 9},		{"List-Unsubscribe", 16},
+    {"List-Subscribe", 14},	{"List-Post", 9},
+    {"List-Owner", 10},		{"List-Archive, 12},
     {"-request", 8},		{"postmaster", 10},	{"uucp", 4},
     {"mailer-daemon", 13},	{"mailer", 6},		{"-relay", 6},
     {"-activists", 10},           {"-programmers", 12},     {NULL, 0},
@@ -567,7 +570,7 @@ sendmessage(char *myname, char *myrealname)
 	}
 	close(pvect[0]);
 	sfp = fdopen(pvect[1], "w");
-	fprintf(sfp,"User-Agent: Vacation/1.2.3 http://vacation.sourceforge.net\n");
+	fprintf(sfp,"User-Agent: Vacation/1.2.6 http://vacation.sourceforge.net\n");
 	fprintf(sfp, "To: %s\n", from);
 	while (fgets(buf, sizeof buf, mfp)) {
 		char	*sp, *fromp, *subjp, *nextp;
