@@ -1,3 +1,7 @@
+00/11/22: 
+- Added User-Agent to Vacation
+- Added some changes to vacation. Also a change to the Makefile
+
 00/07/14:
 - Patched vacation.c to disable a possible security problem.
   This may give a remote user hen chance to execute programs.
