@@ -1,0 +1,150 @@
+From brewhq.swb.de!monad.swb.de!okir Fri Jul 28 18:30:18 1995
+Return-Path: <brewhq.swb.de!monad.swb.de!okir>
+Received: by seneca (Smail3.1.29.1 #1)
+	id m0sbsIj-000MrxC; Fri, 28 Jul 95 18:30 MET DST
+Received: from brewhq.swb.de (brewhq.swb.de [193.175.30.3]) by commy.ix.de (8.6.11/commy_003) with SMTP 
+          id SAA26176 for <hm@seneca.ix.de>; Fri, 28 Jul 1995 18:02:36 +0200
+Received: by brewhq.swb.de (Linux Smail3.1.29.0 #5)
+	id m0sbrrj-0005ApC; Fri, 28 Jul 95 18:02 MET DST
+Received: by monad.swb.de (smail3.1.29.0 #5)
+	id m0sbsH4-00005JC; Fri, 28 Jul 95 18:28 MET DST
+Message-Id: <m0sbsH4-00005JC@monad.swb.de>
+From: okir@monad.swb.de (Olaf Kirch)
+Subject: vacation vulnerability
+To: seneca!hm
+Date: Fri, 28 Jul 1995 18:28:34 +0200 (MET DST)
+Cc: juphoff@tarsier.cv.nrao.edu (Jeff Uphoff)
+X-Mailer: ELM [version 2.4 PL23]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Length: 3763      
+Status: RO
+
+
+Hi Harald,
+
+I'm writing this in English because the message is Cc'ed to Jeff Uphoff,
+with whom I'm moderating the linux-security lists.
+
+I just noticed that the vacation program as found on sunsite has a
+security problem. It runs some fancy sed commands using system(), which
+makes for all sorts of fun. Try sending a message to someone running
+vacation with a subject like this:
+
+Subject: foo/g' > /dev/null; echo "foo.bar.edu joedoe" > ~/.rhosts; #
+
+A comment in the source code seems to indicate that you inserted the
+call to system(), replacing some other construct. I just looked at
+the 4.4BSD-Lite version, and it reasonably uses fork/exec to run 
+sendmail. I'm appending a patch below that should fix the problem.
+Be warned though, it's not tested extensively.
+
+I would like to send out a note to linux-alert when/if you have a fixed
+version, and provided you want to cooperate with us.
+
+Olaf
+-- 
+Olaf Kirch         |  --- o --- Nous sommes du soleil we love when we play
+okir@monad.swb.de  |    / | \   sol.dhoop.naytheet.ah kin.ir.samse.qurax
+             For my PGP public key, finger okir@brewhq.swb.de.
+------------------------------------------------------------------
+--- vacation.c.orig	Fri Jul 28 18:18:43 1995
++++ vacation.c	Fri Jul 28 18:20:16 1995
+@@ -465,42 +465,62 @@
+  * sendmessage --
+  *	exec sendmail to send the vacation file to sender
+  */
+-void sendmessage(char *myname)
++void
++sendmessage(char *myname)
+ {
+-  char cmdline[MAXLINE];
+-  int retcode = 0;
++	FILE *mfp, *sfp;
++	int i;
++	int pvect[2];
++	char buf[MAXLINE];
+ 
+-  if (!freopen(VMSG, "r", stdin)) {
+-    syslog(LOG_NOTICE, "vacation: no ~%s/%s file.\n", myname, VMSG);
+-    exit(1);
+-  }
+-  sprintf (cmdline, "%s 's/$SUBJECT/%s/g;s/$FROM/%s/g' | %s -f %s %s",
+-	   _PATH_SED, subject, from, _PATH_SENDMAIL, myname, from);
++	mfp = fopen(VMSG, "r");
++	if (mfp == NULL) {
++		syslog(LOG_NOTICE, "vacation: no ~%s/%s file.\n", myname, VMSG);
++		exit(1);
++	}
++	if (pipe(pvect) < 0) {
++		syslog(LOG_ERR, "vacation: pipe: %s", strerror(errno));
++		exit(1);
++	}
++	i = vfork();
++	if (i < 0) {
++		syslog(LOG_ERR, "vacation: fork: %s", strerror(errno));
++		exit(1);
++	}
++	if (i == 0) {
++		dup2(pvect[0], 0);
++		close(pvect[0]);
++		close(pvect[1]);
++		fclose(mfp);
++		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, from, NULL);
++		syslog(LOG_ERR, "vacation: can't exec %s: %s",
++			_PATH_SENDMAIL, strerror(errno));
++		exit(1);
++	}
++	close(pvect[0]);
++	sfp = fdopen(pvect[1], "w");
++	fprintf(sfp, "To: %s\n", from);
++	while (fgets(buf, sizeof buf, mfp)) {
++		char	*sp, *fromp, *subjp, *nextp;
+ 
+-#ifdef DEBUG
+-  sprintf (logline, "cmdline for reply: %s", cmdline);
+-  printd (logline);
+-  sprintf (cmdline, "%s 's/$SUBJECT/%s/g;s/$FROM/%s/g' | %s -f %s %s",
+-	   _PATH_SED, subject, from, _PATH_SENDMAIL, myname, "dummy2");
+-#endif	    
+-
+-/*  execl(_PATH_BSHELL, "sh", "-c", cmdline, NULL);
+-  syslog(LOG_ERR, "vacation: can't exec %s.\n", _PATH_BSHELL);*/
+-
+-/* using the system() call seems more reasonable to me. hm */
+-  retcode = system(cmdline);
+-  switch (retcode) {
+-  case 127:
+-    syslog(LOG_ERR, "vacation: execve() failed for /bin/sh\n");
+-    break;
+-  case 1:
+-    syslog(LOG_ERR, "vacation: undefined error in system()\n");
+-    break;
+-  default:
+-    syslog(LOG_INFO, "vacation: replied to %s, retcode %d\n", from, retcode);
+-    break;
+-  }
+-  exit(retcode);
++		subjp = strstr(buf, "$SUBJECT");
++		fromp = strstr(buf, "$FROM");
++		for (sp = buf; subjp || fromp; sp = nextp) {
++			if (subjp && !(fromp && fromp < subjp)) {
++				*subjp = '\0';
++				nextp = subjp + 8;
++				subjp = NULL;
++			} else {
++				*fromp = '\0';
++				nextp = fromp + 5;
++				fromp = NULL;
++			}
++			fputs(sp, sfp);
++		}
++		fputs(sp, sfp);
++	}
++	fclose(mfp);
++	fclose(sfp);
+ }
+ 
+ void usage(void)
+
