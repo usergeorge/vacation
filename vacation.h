@@ -1,6 +1,4 @@
 /* vacation.h 
-** 93/11/18 Harald Milz (hm@seneca.ix.de)
-** 98/12/21 Harald Milz (hm@seneca.muc.de)
 ** 00/01/11 Sean Rima (thecivvie@softhome.net)
 */
 
