@@ -1,0 +1,63 @@
+00/03/22:
+- Registered at Sourceforge
+- Removed aliases.man as this is included in most modern MTA.
+
+00/01/11:
+
+- added patch by Stefan Muenkner, see patches/vacation.c.patch
+- now maintained by Sean Rima (thecivvie@softhome.net)
+- released as version 1.2.1
+
+
+98/12/21:
+
+- added patch by Mark Seuffert, see patches/vacation-1.1.111.patch
+- created OLD/ directory, removed old stuff
+- checked for Y2000 cleanness (it is, just using time_t). 
+- Makefile represents /usr/bin now, instead of /usr/ucb
+- removed all references to a.out, no longer supported. 
+- released as version 1.2.0 
+
+95/10/05:
+
+- added contrib/ directory and "vaclook" script by Jeff Uphoff. (thank
+  you, Jeff)
+
+95/08/05:
+
+- installation of ELF and a.out binaries documented in README
+
+95/08/03:
+
+- vacation-1.1.1 released
+
+95/07/31:
+
+- bug fix in sendmessage() (call gdbm_close() on closed file) and
+  initialize() (allow odd $VISUAL and $EDITOR settings) by Jeff Uphoff
+  (juphoff@tarsier.cv.nrao.edu).
+- vacation now syslogs to the LOG_MAIL facility.
+
+95/07/27:
+
+- version 1.1 released
+- important security bug fix by Olaf Kirch (okir@monad.swb.de)
+
+93/12/13:
+
+- released 1.0 version. nothing further to change. 
+
+93/11/19:
+
+- improved capability to recognize the sender's internet address. The
+  old version (1983!) extracted it from the "From " line which holds a
+  UUCP bang path to the sender. Now, the address is extracted from the
+  "From: " line which holds the address in domain name style which is
+  less confusing to modern mail transport agents. If "From:" does not
+  contain a `good' address, the UUCP bang path is converted.
+- included manpages for aliases(5) and forward(5)
+- set version number to 0.9. Version should be fairly complete.
+
+93/11/18:
+
+- Initial version. See README.

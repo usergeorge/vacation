@@ -1,0 +1,92 @@
+Vacation is the automatic mail answering program found with many Unix
+implementations such as SunOS and IBM AIX.
+
+This is my vacation port to Linux. It is derived from the vacation program
+found on agate.berkeley.edu in the 386bsd directory on Nov 16, 1993. The
+original program was written by Eric Allman in 1983 and is copyrighted by
+the Regents of the UCB. The copyright disclaimer is valid for this
+distribution as well, i.e. this version is provided `as is', and I shall not
+be liable for any damage, data loss or earthquakes in the bay area.
+
+Version 1.1 was a security-patched version. The former version 1.0 had
+a bad security bug which Olaf Kirch reported to the CERT mailing list (after
+giving me a hint :-). Please DO NOT LONGER USE vacation-1.0! 
+
+As far as Copyrights are concerned, the original parts of vacation are
+under the BSD copyright whereas I place my changed under the GPL (see
+file COPYING in the directory).
+
+I tried to make this port look just like the version found with SunOS 4.1.x.
+There are minor differences, however, it resembles more the Sun version than
+the original 386bsd source.
+
+Differences to the 386bsd version: 
+- usage of the GNU dbm database library (libdbm.a) instead of whatever
+  was used in 386bsd. I don't know 386bsd well, so there was no
+  chance to avoid this change. You won't bother, probably. 
+- implementation of the `-j' option which suppresses checking of the
+  "To:" and "Cc:" fields.
+- the 386bsd version didn't replace the string "$SUBJECT" in the
+  .vacation.msg file if present :-(. Well, this version does.
+- the other options are named as and work just like the Sun version's,
+  except:
+
+Differences to the Sun version:
+- the `-t' option only allows for an adjustment in steps of days. Not
+  that it would have been to difficult to implement the whole armada of
+  Sun's option, but I considered this useful enough. 
+- Instead of the files .vacation.dir and .vacation.pag, respectively,
+  this version uses a single file .vacation.db. The dbm_open() call used
+  in the Sun and AIX versions hard-links the former files, so I dind't
+  find any reason why to keep up this configuration.
+
+There's a new option `-r' which checks if there is a "Reply-To:" header in
+the incoming mail, and if there is, its entry overrides the "From:" entry.
+This can be useful in those cases where users have `replyto' files for their
+newsreaders for specific reasons. Plus, if someone intends to receive mail
+at another location, he/she will issue "Reply-To:" as well. Feel free to
+argue for or against this issue.
+
+Unpack the package as follows
+
+mkdir -p /usr/src		# if not already present :-)
+chdir /usr/src
+gzip -dc <path>/vacation-1.1.tgz | tar xpvf -
+
+A simple `make install' (install-aout is no longer supported as of version
+1.2) should install binary in /usr/bin and the manpages in /usr/man/man*,
+respectively.  If you choose different directories, edit the Makefile.
+
+There are no prerequisites as far as the compiler and the library
+versions are concerned. You should be able to compile vacation with
+older versions as well. However, you'll need the libdbm.a library and
+the corresponding header files which should be shipped with most (if
+not all) Linux distributions (at least it was with SLS 1.01). I compiled
+the supplied binaries with GCC 2.6.3 (ELF). They are dynamically linked
+against libc-5.4.38 and libgdbm-2.0.0. If you don't have those libraries,
+either install libc-5 or recompile the binaries which should be fairly
+easy.
+
+In order to call an external shell, sendmail(8) and vi(1) correctly,
+vacation #includes paths.h which should thus reflect your configuration.
+Please adjust the corresponding entries in paths.h (usually found in
+/usr/include).
+
+vacation.c is still full of "#ifdef DEBUG" statements which are subject to
+vanish in a later version. However, if you do some testing, the file
+`/tmp/vacation.log' can be helpful. The function printd() is intended to log
+into this file. Apart from that, vacation syslogs into the LOG_MAIL facility.
+
+I apologize for not having put too many comments into the source. I felt
+that for the moment, the source is very understandable itself (as you always
+do when having played around with some source code for a while).
+
+If you want to use Jeff Uphoff's "vaclook" script, simply strip everything
+that isn't needed and change the permissions as appropriate. Perl5 and
+dynamic loading is needed.
+
+I'd appreciate some further testing and any useful hints concerning
+vacation. Please feel free to mail me any comments.
+
+Sean Rima (thecivvie@softhome.net), 2 Dec 1999 (Yeah we are Y2000 clean!)
+
