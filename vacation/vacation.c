@@ -39,7 +39,7 @@ char copyright[] =
 
 #ifndef lint
 /*static char sccsid[] = "from: @(#)vacation.c	5.19 (Berkeley) 3/23/91";*/
-static char rcsid[] = "$Id$";
+static char rcsid[] __attribute__ ((unused)) = "$Id$";
 #endif /* not lint */
 
 /*
@@ -87,7 +87,7 @@ static char rcsid[] = "$Id$";
  *	vacation" loops.
  */
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   extern int optind, opterr;
   extern char *optarg;
@@ -100,7 +100,11 @@ void main(int argc, char **argv)
   openlog ("vacation", LOG_PID, LOG_MAIL);  
   opterr = iflag = nflag = rflag = 0;
   interval = -1;
+#ifdef _PATH_VACATION
+  vacation = _PATH_VACATION;
+#else
   vacation = argv[0];
+#endif
   if (argc == 1)
     nflag = 1;
   while ((ch = getopt(argc, argv, "a:It:jr")) != EOF)
@@ -211,8 +215,8 @@ void readheaders(void)
   int tome, cont;
   char buf[MAXLINE];
   char uucpfrom[MAXLINE];
-  char sender[MAXLINE];
-  char domain[MAXLINE];
+//  char sender[MAXLINE];
+//  char domain[MAXLINE];
 
     cont = tome = 0;
     while (fgets(buf, sizeof(buf), stdin) && *buf != '\n')
@@ -230,7 +234,7 @@ void readheaders(void)
 	  p = buf + 6;                      /* start copy here */
 	}
 	(void) strcpy(from, p);             /* actual copy */
-	if (p = index(from, '\n'))          /* was there a NL ? */
+	if ((p = index(from, '\n')))          /* was there a NL ? */
 	  *p = '\0';
 #ifdef DEBUG
 	sprintf (logline, "From: >%s<", from);
@@ -241,7 +245,7 @@ void readheaders(void)
 	for (p = buf + 5; *p && *p != ' '; ++p);
 	*p = '\0';
 	(void)strcpy(uucpfrom, buf + 5);  /* this contains a bang path */
-	if (p = index(uucpfrom, '\n'))
+	if ((p = index(uucpfrom, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
 	sprintf (logline, "From >%s<", uucpfrom);
@@ -251,14 +255,14 @@ void readheaders(void)
       else 
 	break;                              /* other "F" header */
       if (index(from, '@') > rindex(from, '.')) { /* domain addr. complete? */
-	if (p = rindex(uucpfrom, '!')) {
+	if ((p = rindex(uucpfrom, '!'))) {
 	  strcpy(from, p+1);
 	  strcat(from, "@");
 	  *p = '\0';
 	}
 	else
 	  exit (1);                         /* this should not occur */
-	if (p = rindex(uucpfrom, '!')) 
+	if ((p = rindex(uucpfrom, '!'))) 
 	  strcat(from, p+1);
 	else
 	  strcat(from, uucpfrom);
@@ -276,7 +280,7 @@ void readheaders(void)
 	for (p = buf + 10; *p && *p != ' '; ++p);
 	*p = '\0';
 	(void)strcpy(replyto, buf + 10);
-	if (p = index(replyto, '\n'))
+	if ((p = index(replyto, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
 	sprintf (logline, "Reply-To: >%s<", replyto);
@@ -290,7 +294,7 @@ void readheaders(void)
       cont = 0;
       if (!strncasecmp(buf, "Subject:", 8)) {
 	(void)strcpy(subject, buf + 9);
-	if (p = index(subject, '\n'))
+	if ((p = index(subject, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
 	sprintf (logline, "Subject found: >%s<", subject);
@@ -303,7 +307,7 @@ void readheaders(void)
     case 'P':		/* "Precedence:" */
       cont = 0;
       if (strncasecmp(buf, "Precedence", 10) ||
-	  buf[10] != ':' && buf[10] != ' ' && buf[10] != '\t')
+	  (buf[10] != ':' && buf[10] != ' ' && buf[10] != '\t'))
 	break;
       if (!(p = index(buf, ':')))
 	break;
@@ -378,9 +382,9 @@ int junkmail(void)
   /* I am not sure whether this list is near to complete. Maybe a 
      separate file containing all the exceptions would be more
      handy than hardwiring this into the code. hm */
-    "-request", 8,		"postmaster", 10,	"uucp", 4,
-    "mailer-daemon", 13,	"mailer", 6,		"-relay", 6,
-    "-activists", 10,           "-programmers", 12,     NULL, 0,
+    {"-request", 8},		{"postmaster", 10},	{"uucp", 4},
+    {"mailer-daemon", 13},	{"mailer", 6},		{"-relay", 6},
+    {"-activists", 10},           {"-programmers", 12},     {NULL, 0},
   };
   register struct ignore *cur;
   register int len;
@@ -395,7 +399,7 @@ int junkmail(void)
    */
   if (!(p = index(from, '%')))
     if (!(p = index(from, '@'))) {
-      if (p = rindex(from, '!'))
+      if ((p = rindex(from, '!')))
 	++p;
       else
 	p = from;
@@ -488,7 +492,7 @@ sendmessage(char *myname, char *myrealname)
 	char buf[MAXLINE];
 	char line[MAXLINE];
 
-	if (p = index(myrealname, ',')) {         /* realname with , ? */
+	if ((p = index(myrealname, ','))) {         /* realname with , ? */
 		*p = '\0';                        /* let string end here */
 	}
 	if (index(myrealname, '(') || index(myrealname, ')')) {

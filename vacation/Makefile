@@ -9,10 +9,18 @@
 
 SHELL		= /bin/sh
 CC		= gcc
-
+ARCH           = $(shell uname -m)
 #
-CFLAGS		= -O2 -m486 
-LFLAGS		= 
+ifeq "$(ARCH)" "alpha"
+  CFLAGS       = $(RPM_OPT_FLAGS) -Wall
+else
+ifeq "$(ARCH)" "ppc"
+  CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall
+else
+  CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall
+endif
+endif
+LFLAGS         = -Xlinker -warn-common
 
 LIBS		= -lgdbm
 LINT		= lint -abchuvx
@@ -20,13 +28,15 @@ LLIBS		=
 
 # where things go
 BINDIR		= /usr/bin
+VACATION        = $(BINDIR)/vacation
+VACLOOK         = $(BINDIR)/vaclook
 MANDIR		= /usr/man/man
 MANEXT1		= 1
 MANEXT5		= 5
 
 VERSION 	= 1
 SUBVERSION 	= 2
-PATCHLEVEL	= 0
+PATCHLEVEL	= 2
 
 # what are we making
 SRC		= vacation.c
@@ -44,12 +54,14 @@ TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 all:	$(BIN)
 
 install:  all
-	install -s -m 755 $(BIN) $(BINDIR)/$(BIN)
+	install -s -m 755 $(BIN) $(VACATION)
+	install -s -m 755 vaclook $(VACLOOK)
 	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
+	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 	install -m 444 forward.man $(MANDIR)$(MANEXT5)/forward.$(MANEXT5)
 
 vacation:	$(SRC)
-	$(CC) $(CFLAGS) $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
+	$(CC) $(CFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
 debug:	$(SRC)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
@@ -58,7 +70,7 @@ clean:
 	rm -f *.o core *.out Makefile.old
 
 clobber: clean
-	rm -f vacation 
+	rm -f $(BIN)
 
 package: all
 	strip vacation
