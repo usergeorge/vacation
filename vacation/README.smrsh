@@ -1,0 +1,11 @@
+If you get the following or similar error message from sendmail:
+
+sh: vacation not available for sendmail programs
+554 "|vacation joe"... Service unavailable
+
+then you (or your sysadm) have to make a link from vacation to the
+directory of smrsh (sendmail restricted shell) to enable vacation a
+a mail processing utility.
+
+For further information read the README.smrsh from the sendmail
+distribution.
