@@ -1,0 +1,111 @@
+Greeting.
+
+I use "vacation" in my mail server. But I had troubles when it
+sends autoreplay with default hostname and ignores other virtual
+domain names.
+
+Fof fix it I made some changes. Look at :
+-----------------------------cut--------------------------------
+--- vacation.c.suse	Sun Feb  4 00:23:27 2001
++++ vacation.c	Sun Feb  4 02:27:15 2001
+@@ -56,6 +56,12 @@
+ **  Mark Seuffert (moak@pirate.de)
+ */
+ 
++/*  Aleksey Barabanov <alekseybb@mtu-net.ru>
++**  Sun Feb 4 00:37:29 2001
++**    1.add option -h hostname for virtual domain processing
++**    2.realname in /etc/passwd with blank internals
++*/
++
+ #include <sys/param.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+@@ -91,10 +97,13 @@
+   time_t interval;
+   int ch, iflag, nflag;
+   char *vacation;
++  char *vdomain;
++  char *vusername;
+ 
+   openlog ("vacation", LOG_PID, LOG_MAIL);  
+   opterr = iflag = nflag = rflag = 0;
+   interval = -1;
++  vdomain = NULL;
+ #ifdef _PATH_VACATION
+   vacation = _PATH_VACATION;
+ #else
+@@ -102,7 +111,7 @@
+ #endif
+   if (argc == 1)
+     nflag = 1;
+-  while ((ch = getopt(argc, argv, "a:It:jr")) != EOF)
++  while ((ch = getopt(argc, argv, "a:h:It:jr")) != EOF)
+     switch((char)ch) {
+     case 'a':			/* alias */
+       if (!(cur = (ALIAS *)malloc((u_int)sizeof(ALIAS)))) {
+@@ -113,6 +122,9 @@
+       cur->next = names;
+       names = cur;
+       break;
++    case 'h':			/* hostname */
++      vdomain = optarg;
++      break;
+     case 'I':			/* init the database */
+       iflag = 1;
+       break;
+@@ -192,7 +204,19 @@
+   if (!recent()) {
+     setreply();
+     (void) gdbm_close(db);
+-    sendmessage(pw->pw_name, pw->pw_gecos);
++    if( vdomain){ /* add virtual domain to username */
++      if( !(vusername = (char *)malloc(MAXLINE))) {
++	perror ("malloc");
++	exit (-1);
++        }
++      (void) strcpy( vusername, pw->pw_name);
++      strcat( vusername, "@");
++      strcat( vusername, vdomain);
++      sendmessage(vusername, pw->pw_gecos);
++      free(vusername);
++    }else{    
++      sendmessage(pw->pw_name, pw->pw_gecos);
++      }
+   } else
+     (void) gdbm_close(db);
+   exit(0);
+@@ -495,7 +519,10 @@
+ 	while (myrealname && (*myrealname == '-' || *myrealname == ' ')) {
+ 		myrealname++;                     /* skip `-' */
+ 	}
+-	if (index(myrealname, '(') || index(myrealname, ')')) {
++	while(( p = index(myrealname,' '))){
++		*p = '_';	/* replace all blanks to underlines */
++		}
++	if (index(myrealname, '(') || index(myrealname, ')')){
+ 		*buf='\"';                        /* put " around realnames with () */
+ 		(void) strcpy(buf+1, myrealname);
+ 		strcat (buf,"\"");
+@@ -568,7 +595,7 @@
+ void usage(void)
+ {
+   puts ("usage: vacation [ -I ]");
+-  puts ("or:    vacation [ -j ] [ -a alias ] [ -tN ] [ -r ] login");
++  puts ("or:    vacation [ -j ] [ -a alias ] [ -h hostname ] [ -tN ] [ -r ] login");
+   exit(1);
+ }
+ 
+-----------------------------cut--------------------------------
+
+I work with SuSE Linux and my path must add to source after SuSE-team's
+patch. But SuSE's patch so simple and I hope you undestand all ( if you
+need of course ;).
+
+May be my changes will be usefull for somebody.
+
+Cheers from Moskow.
+-- 
+Aleksey Barabanov <alekseybb@mtu-net.ru>
+
+
