@@ -1,0 +1,31 @@
+.\"
+.\" Copyright (c) 1999 SuSE GmbH Nuernberg, Germany
+.\" Author: Werner Fink
+.\"
+.TH VACLOOK 1 "22 December 1999"
+.UC 1
+.SH NAME
+vaclook \- browses .vacation.db and shows addresses
+.SH SYNOPSIS
+.B vaclook
+.\"
+.SH DESCRIPTION
+.B Vaclook
+browses the ~/.vacation.db file and shows the addresses that have been
+replied to, as well as the time/date of the most recent 'vacation' reply
+to each address.
+.SH EXAMPLE
+.PP
+sender@senders.domain:            Sat Nov 20 00:39:51 1999
+.\"
+.SH FILES
+.TP
+.I ~/.vacation.db
+.\"
+.SH SEE ALSO
+.BR vacation(1)
+.\"
+.SH AUTHOR
+.I vaclook
+is Copyright (c) 1995 Jeff Uphoff, National Radio Astronomy Observatory
+Charlottesville, VA, USA (juphoff@nrao.edu).
