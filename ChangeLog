@@ -1,3 +1,6 @@
+01/08/01:
+- Added all rfc2369 keyword to ignore list.
+
 01/02/19:
 - Added Virutal hosts support
   patch provided by Aleksey Barabanov (See contrib)
