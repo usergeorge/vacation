@@ -1,3 +1,6 @@
+00/12/17:
+- added a patch from Soos Peter <sp@osb.hu>. see contrib section
+
 00/11/23:
 - Bug fix, I introduced a small bug in the sendmail sending routine.
 

@@ -10,7 +10,9 @@
 #define	MAXLINE	1024			/* max line from mail header */
 #define	VDB	".vacation.db"		/* dbm's database */
 #define	VMSG	".vacation.msg"		/* vacation message */
+#define	OLDVMSG	".vacation.old"		/* previous vacation message */
 #define FWD     ".forward"              /* forward file */
+#define OLDFWD  ".forward.old"          /* previous forward file */
 
 typedef struct alias {
 	struct alias *next;
