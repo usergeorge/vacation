@@ -526,11 +526,7 @@ sendmessage(char *myname, char *myrealname)
 		close(pvect[0]);
 		close(pvect[1]);
 		fclose(mfp);
-#ifdef POSTFIX
-		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "-F", buf, from, NULL);
-#else
-		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "--" "-F", buf, from, NULL); 
-#endif		
+		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "-F", buf, "--", from, NULL); 
 		syslog(LOG_ERR, "vacation: can't exec %s: %s",
 			_PATH_SENDMAIL, strerror(errno));
 		exit(1);
