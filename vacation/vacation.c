@@ -578,15 +578,35 @@ void initialize (char *path, char *myname)
 {
   char *editor;
   char ebuf[PATH_MAX];
+  char c;
   FILE *message;
+  FILE *oldmessage;
   FILE *forward;
+  FILE *oldforward;
 
-  if (((forward = fopen (FWD, "w")) == NULL)) {
-    fprintf (stderr, "vacation: cannot open %s\n", FWD);
-    exit (1);
+  if (((forward = fopen (FWD, "r")) == NULL)) {
+    if (((forward = fopen (FWD, "w")) == NULL)) {
+      fprintf (stderr, "vacation: cannot open %s for reading\n", FWD);
+      exit (1);
+    }
+  } else {
+    if (((oldforward = fopen (OLDFWD, "w")) == NULL)) {
+      fprintf (stderr, "vacation: cannot open %s for writing\n", OLDFWD);
+      exit (1);
+    }
+    while (((c = fgetc (forward)) != EOF)) {
+      fprintf(oldforward, "%c", c);
+      chmod (OLDFWD, 00600);
+    }
+    fclose (oldforward);
+    if (((forward = freopen (FWD, "w", forward)) == NULL)) {
+      fprintf (stderr, "vacation: cannot open %s for writing\n", FWD);
+      exit (1);
+    }
   }
   fprintf (forward, "\\%s, \"|%s %s\"\n", myname, path, myname);
   fclose (forward);
+  chmod (FWD, 00600);
 
   if (((editor = getenv ("VISUAL")) == NULL))
     if (((editor = getenv ("EDITOR")) == NULL))
@@ -596,14 +616,26 @@ void initialize (char *path, char *myname)
 	printd (logline);
 #endif
         
-  if (((message = fopen (VMSG, "w")) == NULL)) {
-    fprintf (stderr, "vacation: cannot open %s\n", VMSG);
-    exit (1);
-  }
+  if (((message = fopen (VMSG, "r")) == NULL)) {
+    if (((message = fopen (VMSG, "w")) == NULL)) {
+      fprintf (stderr, "vacation: cannot open %s\n", VMSG);
+      exit (1);
+    }
+  message = fopen (VMSG, "w");
   fprintf (message, "Subject: away from my mail\n\n");
   fprintf (message, "I will not be reading my mail for a while.\n");
   fprintf (message, "Your mail concerning \"$SUBJECT\"\n");
   fprintf (message, "will be read when I'm back.\n");
+  } else {
+    if (((oldmessage = fopen (OLDVMSG, "w")) == NULL)) {
+      fprintf (stderr, "vacation: cannot open %s\n", OLDVMSG);
+      exit (1);
+    }
+    while (((c = fgetc (message)) != EOF)) {
+      fprintf(oldmessage, "%c", c);
+    }
+    fclose (oldmessage);
+  }
   fclose (message);
   sprintf (ebuf, "%s %s", editor, VMSG);
 #ifdef DEBUG
