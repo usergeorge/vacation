@@ -1,3 +1,8 @@
+00/04/08:
+- Alpha code is released as vacation-1.2.2
+- Problem with vacation not sending .vacation.msg is fixed by 
+  Stefan Muenkner's patch. Thanks Stefan :)
+
 00/04/01:
 - CVS is now available for annoynmous use:
   cvs  -d:pserver:anonymous@cvs.vacation.sourceforge.net:/cvsroot/vacation \
