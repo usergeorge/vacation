@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+#
+# $Id$
+
+require 5;                      # This script requires Perl v5.
+use GDBM_File;                  # Format that 'vacation' uses.
+
+# Associate the file with local hash.
+tie (%vacdb, GDBM_File, "$ENV{'HOME'}/.vacation.db", 0, undef);
+
+# Dump the contents (with converted time-stamps).
+map {
+    printf ("%-36s %.36s\n", "$_:", scalar (localtime (unpack ('i', $vacdb{$_}))))
+    } sort keys %vacdb;
