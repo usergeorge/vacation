@@ -6,7 +6,6 @@
 # Version 1.2.0
 # 12/21/98 Harald Milz (hm@seneca.muc.de)
 #
-
 SHELL		= /bin/sh
 CC		= gcc
 ARCH           = $(shell uname -m)
@@ -20,6 +19,8 @@ else
   CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall
 endif
 endif
+# Set this option to = -DPOSTFIX if you use Postfix MTA
+PFLAGS          = -DPOSTFIX
 LFLAGS         = -Xlinker -warn-common
 
 LIBS		= -lgdbm
@@ -46,7 +47,7 @@ BIN		= vacation
 # what we are packaging
 PACKAGE		= ChangeLog Makefile README tzfile.h \
 		  vacation vacation.c vacation.h *.man COPYING \
-		  contrib vacation-1.2.0.lsm patches OLD
+		  contrib vacation-1.2.2.lsm patches OLD
 TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 
 # rules
@@ -61,7 +62,7 @@ install:  all
 	install -m 444 forward.man $(MANDIR)$(MANEXT5)/forward.$(MANEXT5)
 
 vacation:	$(SRC)
-	$(CC) $(CFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
+	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
 debug:	$(SRC)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)

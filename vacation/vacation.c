@@ -526,13 +526,18 @@ sendmessage(char *myname, char *myrealname)
 		close(pvect[0]);
 		close(pvect[1]);
 		fclose(mfp);
-		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "--" "-F", buf, from, NULL);
+#ifdef POSTFIX
+		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "-F", buf, from, NULL);
+#else
+		execl(_PATH_SENDMAIL, "sendmail", "-f", myname, "--" "-F", buf, from, NULL); 
+#endif		
 		syslog(LOG_ERR, "vacation: can't exec %s: %s",
 			_PATH_SENDMAIL, strerror(errno));
 		exit(1);
 	}
 	close(pvect[0]);
 	sfp = fdopen(pvect[1], "w");
+	fprintf(sfp,"User-Agent: Vacation/1.2.3 http://vacation.sourceforge.net\n");
 	fprintf(sfp, "To: %s\n", from);
 	while (fgets(buf, sizeof buf, mfp)) {
 		char	*sp, *fromp, *subjp, *nextp;
@@ -624,7 +629,7 @@ void printd (char *message)
 
   time (&now);
   timestr = ctime (&now);
-  if (p = index(timestr, '\n')) 
+  if ((p = index(timestr, '\n')))
     *p = '\0';
   file = fopen ("/tmp/vacation.log", "a");
   fprintf (file, "%s %s\n", timestr, message);
