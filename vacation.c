@@ -61,6 +61,12 @@ static char rcsid[] __attribute__ ((unused)) = "$Id$";
 **  Patrik Schindler (poc@pocnet.net)
 */
 
+/*  Aleksey Barabanov <alekseybb@mtu-net.ru>
+**  Sun Feb 4 00:37:29 2001
+**    1.add option -h hostname for virtual domain processing
+**    2.realname in /etc/passwd with blank internals
+*/
+
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -96,10 +102,13 @@ int main(int argc, char **argv)
   time_t interval;
   int ch, iflag, nflag;
   char *vacation;
+  char *vdomain;
+  char *vusername;
 
   openlog ("vacation", LOG_PID, LOG_MAIL);  
   opterr = iflag = nflag = rflag = 0;
   interval = -1;
+  vdomain = NULL;
 #ifdef _PATH_VACATION
   vacation = _PATH_VACATION;
 #else
@@ -107,7 +116,7 @@ int main(int argc, char **argv)
 #endif
   if (argc == 1)
     nflag = 1;
-  while ((ch = getopt(argc, argv, "a:It:jr")) != EOF)
+  while ((ch = getopt(argc, argv, "a:h:It:jr")) != EOF)
     switch((char)ch) {
     case 'a':			/* alias */
       if (!(cur = (ALIAS *)malloc((u_int)sizeof(ALIAS)))) {
@@ -117,6 +126,9 @@ int main(int argc, char **argv)
       cur->name = optarg;
       cur->next = names;
       names = cur;
+      break;
+    case 'h':			/* hostname */
+      vdomain = optarg;
       break;
     case 'I':			/* init the database */
       iflag = 1;
@@ -204,7 +216,19 @@ int main(int argc, char **argv)
   if (!recent()) {
     setreply();
     (void) gdbm_close(db);
-    sendmessage(pw->pw_name, pw->pw_gecos);
+    if( vdomain){ /* add virtual domain to username */
+      if( !(vusername = (char *)malloc(MAXLINE))) {
+	perror ("malloc");
+	exit (-1);
+        }
+      (void) strcpy( vusername, pw->pw_name);
+      strcat( vusername, "@");
+      strcat( vusername, vdomain);
+      sendmessage(vusername, pw->pw_gecos);
+      free(vusername);
+    }else{    
+      sendmessage(pw->pw_name, pw->pw_gecos);
+      }
   } else
     (void) gdbm_close(db);
   exit(0);
@@ -502,7 +526,10 @@ sendmessage(char *myname, char *myrealname)
 	if ((p = index(myrealname, ','))) {         /* realname with , ? */
 		*p = '\0';                        /* let string end here */
 	}
-	if (index(myrealname, '(') || index(myrealname, ')')) {
+	while(( p = index(myrealname,' '))){
+		*p = '_';	/* replace all blanks to underlines */
+		}
+	if (index(myrealname, '(') || index(myrealname, ')')){
 		*buf='\"';                        /* put " around realnames with () */
 		(void) strcpy(buf+1, myrealname);
 		strcat (buf,"\"");
@@ -576,7 +603,7 @@ sendmessage(char *myname, char *myrealname)
 void usage(void)
 {
   puts ("usage: vacation [ -I ]");
-  puts ("or:    vacation [ -j ] [ -a alias ] [ -tN ] [ -r ] login");
+  puts ("or:    vacation [ -j ] [ -a alias ] [ -h hostname ] [ -tN ] [ -r ] login");
   exit(1);
 }
 
