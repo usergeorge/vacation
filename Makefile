@@ -1,4 +1,4 @@
-# Makefile for vacation 1.2.2.a1
+# Makefile for vacation 1.2.3
 # 03/22/00 Sean Rima (thecivvie@softhome.net)
 # 07/28/95 Harald Milz (hm@seneca.ix.de)
 # 04/02/97 Harald Milz (hm@seneca.muc.de)
