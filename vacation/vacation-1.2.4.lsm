@@ -1,7 +1,7 @@
 Begin3
 Title:		Automatic mail answering program for Linux
-Version:	1.2.3
-Entered-Date:	Nov 22, 2000
+Version:	1.2.4
+Entered-Date:	Nov 26, 2000
 Description:	This is the port of the 386bsd vacation program to Linux. 
 		Vacation is the automatic mail answering program found
 		on many Unix systems.
