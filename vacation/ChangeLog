@@ -1,3 +1,10 @@
+00/04/01:
+- CVS is now available for annoynmous use:
+  cvs  -d:pserver:anonymous@cvs.vacation.sourceforge.net:/cvsroot/vacation \
+            login
+  cvs -z3 -d:pserver:anonymous@cvs.vacation.sourceforge.net:
+          /cvsroot/vacation co vacation
+
 00/03/22:
 - Registered at Sourceforge
 - Removed aliases.man as this is included in most modern MTA.
