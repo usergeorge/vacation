@@ -162,9 +162,16 @@ int main(int argc, char **argv)
 	   "vacation: no such directory %s.\n", pw->pw_dir);
     exit(1);
   }
-  
-  db = gdbm_open(VDB, 128, ((iflag || nflag) ? GDBM_NEWDB : GDBM_WRITER),
-		 0644, NULL);
+
+  do
+  {
+    db = gdbm_open(VDB, 128, ((iflag || nflag) ? GDBM_NEWDB : GDBM_WRITER),
+		   0644, NULL);
+    if (!db && errno == EAGAIN)
+      sleep((rand() & 7) + 1);
+  }
+  while (!db && errno == EAGAIN);
+      
   if (!db) {
     syslog(LOG_NOTICE, "vacation: %s: %s\n", VDB, strerror(errno));
     exit(1);

@@ -31,7 +31,6 @@ VACATION        = $(BINDIR)/vacation
 VACLOOK         = $(BINDIR)/vaclook
 MANDIR		= /usr/man/man
 MANEXT1		= 1
-MANEXT5		= 5
 
 VERSION 	= 1
 SUBVERSION 	= 2
@@ -57,7 +56,6 @@ install:  all
 	install -s -m 755 vaclook $(VACLOOK)
 	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
-	install -m 444 forward.man $(MANDIR)$(MANEXT5)/forward.$(MANEXT5)
 
 vacation:	$(SRC)
 	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
