@@ -1,0 +1,56 @@
+From tarsier.cv.nrao.edu!juphoff Thu Oct  5 08:30:10 1995
+Return-Path: <tarsier.cv.nrao.edu!juphoff>
+Received: by seneca (Smail3.1.29.1 #1)
+	id m0t0kkr-000Mn1C; Thu, 5 Oct 95 08:30 MET
+Received: from tarsier.cv.nrao.edu (tarsier.cv.nrao.edu [192.33.115.50]) by commy.ix.de (8.6.11/commy_003) with ESMTP 
+          id XAA00207 for <hm@seneca.ix.de>; Wed, 4 Oct 1995 23:00:54 +0100
+Received: (from juphoff@localhost) by tarsier.cv.nrao.edu (8.6.12/8.6.9) id QAA01699; Wed, 4 Oct 1995 16:45:31 -0400
+Date: Wed, 4 Oct 1995 16:45:31 -0400
+Message-Id: <199510042045.QAA01699@tarsier.cv.nrao.edu>
+From: Jeff Uphoff <juphoff@tarsier.cv.nrao.edu>
+To: seneca!hm
+Subject: Vacation script.
+X-Zippy: Edwin Meese made me wear CORDOVANS!!
+X-Mailer: VM 5.94 (beta); GNU Emacs 19.29.1
+X-Attribution: Up
+Status: RO
+
+Here's a small script that I wrote to browse the .vacation.db file and
+show the addresses that have been replied to, as well as the time/date
+of the most recent 'vacation' reply to each address:
+
+#!/usr/local/bin/perl5
+#
+# $Id$
+
+require 5;                      # This script requires Perl v5.
+use GDBM_File;                  # Format that 'vacation' uses.
+
+# Associate the file with local hash.
+tie (%vacdb, GDBM_File, "$ENV{'HOME'}/.vacation.db", 0, undef);
+
+# Dump the contents (with converted time-stamps).
+map {
+    printf ("%s: %s\n", $_, scalar (localtime (unpack ('i', $vacdb{$_}))))
+    } sort keys %vacdb;
+
+
+Output looks like:
+
+gert@greenie.muc.de: Wed Oct  4 16:28:57 1995
+juphoff@sps1.phys.vt.edu: Wed Oct  4 14:25:50 1995
+juphoff@tarsier.cv.nrao.edu: Wed Oct  4 14:57:30 1995
+okir@monad.swb.de: Wed Oct  4 15:46:21 1995
+
+
+(I just thought you might want to toss this little thing in with the
+next release of 'vacation' as a "contrib" item...)
+
+
+--Up.
+
+-- 
+Jeff Uphoff - systems/network admin.  |  juphoff@nrao.edu
+National Radio Astronomy Observatory  |  jeff.uphoff@linux.org
+Charlottesville, VA, USA              |  http://linux.nrao.edu/~juphoff/
+

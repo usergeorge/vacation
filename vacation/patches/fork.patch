@@ -1,0 +1,25 @@
+--- vacation.c.orig     Thu Feb 24 09:31:36 2000
++++ vacation.c  Thu Feb 24 09:38:34 2000
+@@ -56,6 +56,11 @@
+ **  Mark Seuffert (moak@pirate.de)
+ */
+
++/*  Raaah! Someone has changed the behaviour of vfork() in the kernel >= 2.2.x
++**  We'll use fork instead, that works.
++**  Patrik Schindler (poc@pocnet.net)
++*/
++
+ #include <sys/param.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+@@ -507,7 +512,7 @@
+                syslog(LOG_ERR, "vacation: pipe: %s", strerror(errno));
+                exit(1);
+        }
+-       i = vfork();
++       i = fork();
+        if (i < 0) {
+                syslog(LOG_ERR, "vacation: fork: %s", strerror(errno));
+                exit(1);
+
+:wq! PoC
