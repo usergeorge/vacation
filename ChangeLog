@@ -1,6 +1,11 @@
 2006/08/25
 - Vacation now adds the "Precedence: bulk" header to all outgoing emails.
 - Tagged vacation_1_2_6_2
+- Almost released as 1.2.6.2
+- Forgot to update ChangeLog - fixed
+- Tagged vacation_1_2_6_2_changelog
+- Forgot to update maintainer information - fixed
+- Tagger vacation_1_2_6_2_changelog_maintainer
 - Released as 1.2.6.2
 
 01/08/01:
