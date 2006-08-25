@@ -571,6 +571,7 @@ sendmessage(char *myname, char *myrealname)
 	close(pvect[0]);
 	sfp = fdopen(pvect[1], "w");
 	fprintf(sfp,"User-Agent: Vacation/1.2.6 http://vacation.sourceforge.net\n");
+	fprintf(sfp,"Precedence: bulk\n");
 	fprintf(sfp, "To: %s\n", from);
 	while (fgets(buf, sizeof buf, mfp)) {
 		char	*sp, *fromp, *subjp, *nextp;
