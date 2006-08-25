@@ -1,3 +1,6 @@
+2006/08/25
+- Vacation now adds the "Precedence: bulk" header to all outgoing emails.
+
 01/08/01:
 - Added all rfc2369 keyword to ignore list.
 
