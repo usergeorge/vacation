@@ -246,8 +246,8 @@ void readheaders(void)
   int tome, cont;
   char buf[MAXLINE];
   char uucpfrom[MAXLINE];
-//  char sender[MAXLINE];
-//  char domain[MAXLINE];
+/*  char sender[MAXLINE]; */
+/*  char domain[MAXLINE]; */
 
     cont = tome = 0;
     while (fgets(buf, sizeof(buf), stdin) && *buf != '\n')
