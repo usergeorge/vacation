@@ -413,7 +413,7 @@ int junkmail(void)
   /* I am not sure whether this list is near to complete. Maybe a 
      separate file containing all the exceptions would be more
      handy than hardwiring this into the code. hm */
-    {"Lisp-Help", 9},		{"List-Unsubscribe", 16},
+    {"List-Help", 9},		{"List-Unsubscribe", 16},
     {"List-Subscribe", 14},	{"List-Post", 9},
     {"List-Owner", 10},		{"List-Archive", 12},
     {"-request", 8},		{"postmaster", 10},	{"uucp", 4},
