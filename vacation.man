@@ -151,7 +151,7 @@ or
 or
 .RB ` "Precedence: list" '
 line is included in the header. The search for special 
-senders is made case-independant.
+senders is made case-independent.
 .SH OPTIONS
 .TP
 .B \-I
@@ -271,4 +271,7 @@ in your home directory.
 is Copyright (c) 1983 by Eric P. Allman, University of
 Berkeley, California, and Copyright (c) 1993 by Harald Milz
 (hm@seneca.ix.de). Tiny patches 1998 by Mark Seuffert (moak@pirate.de).
-Now maintained by Sean Rima (thecivvie@softhome.net)
+
+Previously maintained by Sean Rima (thecivvie@softhome.net), now maintained
+by Chris Samuel (chrissamuel at users.sourceforge.net) and
+Brian May (bmay at users.sourceforge.net).
