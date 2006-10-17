@@ -149,7 +149,7 @@ int main(int argc, char **argv)
     case 'r':               /* "Reply-To:" overrides "From:" */
       rflag = 1;
       break;
-    case 'v':               /* "Reply-To:" overrides "From:" */
+    case 'v':               /* Output vacation version number */
       printf("Linux Vacation %s\n",VACVERS);
       exit(0);
       break;
@@ -252,8 +252,8 @@ void readheaders(void)
   int tome, cont;
   char buf[MAXLINE];
   char uucpfrom[MAXLINE];
-//  char sender[MAXLINE];
-//  char domain[MAXLINE];
+/*  char sender[MAXLINE]; */
+/*  char domain[MAXLINE]; */
 
     cont = tome = 0;
     while (fgets(buf, sizeof(buf), stdin) && *buf != '\n')
@@ -577,6 +577,7 @@ sendmessage(char *myname, char *myrealname)
 	}
 	close(pvect[0]);
 	sfp = fdopen(pvect[1], "w");
+	fprintf(sfp,"Precedence: bulk\n");
 	fprintf(sfp,"User-Agent: %s http://vacation.sourceforge.net\n",VACVERS);
 	fprintf(sfp, "To: %s\n", from);
 	while (fgets(buf, sizeof buf, mfp)) {
