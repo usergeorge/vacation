@@ -1,3 +1,15 @@
+2006/10/17
+- Imported the sources from http://savannah.nongnu.org/cvs/?group=vacation.
+- This version uses the modified BSD license (no advertising clause).
+- Committed to SVN unmodified.
+- Changed C++ comments to ANSI C comments (again).
+
+2006/10/16
+- Fixed minor typo when looking for the "List-Help:" header.
+
+2006/09/14
+- Changed C++ comments to ANSI C comments
+
 2006/08/25
 - Vacation now adds the "Precedence: bulk" header to all outgoing emails.
 - Tagged vacation_1_2_6_2

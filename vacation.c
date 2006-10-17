@@ -1,36 +1,34 @@
 /*
- * Copyright (c) 1983, 1987 Regents of the University of California.
+ * Copyright (c) 1988 Regents of the University of California.
  * All rights reserved.
+ *
+ * This code is derived from software contributed to Berkeley by
+ * Arthur David Olson of the National Cancer Institute.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by the University of
- *	California, Berkeley and its contributors.
- * 4. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the distribution.
+ * 3. The name of the author may not be used to endorse or promote products
+ *    derived from this software without specific prior written permission.
+ *                   
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR `AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+ * OF SUCH DAMAGE.
  */
-
+ 
 #ifndef lint
 char copyright[] =
 "@(#) Copyright (c) 1983, 1987 Regents of the University of California.\n\
@@ -116,7 +114,7 @@ int main(int argc, char **argv)
 #endif
   if (argc == 1)
     nflag = 1;
-  while ((ch = getopt(argc, argv, "a:h:It:jr")) != EOF)
+  while ((ch = getopt(argc, argv, "a:h:It:jr:v")) != EOF)
     switch((char)ch) {
     case 'a':			/* alias */
       if (!(cur = (ALIAS *)malloc((u_int)sizeof(ALIAS)))) {
@@ -133,6 +131,9 @@ int main(int argc, char **argv)
     case 'I':			/* init the database */
       iflag = 1;
       break;
+    case 'i':			/* init the database */
+      iflag = 1;
+      break;
     case 't':
       if (isdigit(*optarg)) {
 	interval = atol(optarg) * SECSPERDAY;  /* unit is `days' */
@@ -147,6 +148,10 @@ int main(int argc, char **argv)
       break;
     case 'r':               /* "Reply-To:" overrides "From:" */
       rflag = 1;
+      break;
+    case 'v':               /* "Reply-To:" overrides "From:" */
+      printf("Linux Vacation %s\n",VACVERS);
+      exit(0);
       break;
     case '?':
     default:
@@ -243,11 +248,12 @@ void readheaders(void)
 {
   register ALIAS *cur;
   register char *p;
+  register char *p2;
   int tome, cont;
   char buf[MAXLINE];
   char uucpfrom[MAXLINE];
-/*  char sender[MAXLINE]; */
-/*  char domain[MAXLINE]; */
+//  char sender[MAXLINE];
+//  char domain[MAXLINE];
 
     cont = tome = 0;
     while (fgets(buf, sizeof(buf), stdin) && *buf != '\n')
@@ -255,12 +261,13 @@ void readheaders(void)
       case 'F':         /* "From: " or "From "*/
         cont = 0;
         if (!strncasecmp(buf, "From:", 5)) {     /* "From:" */
-          if ((p = index(buf, '>'))) {          /* address in <> ? */
+          if ((p = index(buf, '>')) && (p2 = index(buf, '<')) && p > p2) {
+                                              /* address in <> ? */
             *p = '\0';                        /* let string end here */
-            p = index(buf, '<') + 1;          /* and start copy here */
+            p = p2 + 1;          /* and start copy here */
 	}
 	else {                              /* address isolated */
-	  for (p = buf + 6; *p && *p != ' '; ++p);
+	  for (p = buf + 6; *p && *p != ' ' && *p != ','; ++p);
 	  *p = '\0';
 	  p = buf + 6;                      /* start copy here */
 	}
@@ -570,8 +577,7 @@ sendmessage(char *myname, char *myrealname)
 	}
 	close(pvect[0]);
 	sfp = fdopen(pvect[1], "w");
-	fprintf(sfp,"User-Agent: Vacation/1.2.6 http://vacation.sourceforge.net\n");
-	fprintf(sfp,"Precedence: bulk\n");
+	fprintf(sfp,"User-Agent: %s http://vacation.sourceforge.net\n",VACVERS);
 	fprintf(sfp, "To: %s\n", from);
 	while (fgets(buf, sizeof buf, mfp)) {
 		char	*sp, *fromp, *subjp, *nextp;
@@ -642,7 +648,12 @@ void initialize (char *path, char *myname)
       exit (1);
     }
   }
-  fprintf (forward, "\\%s, \"|%s %s\"\n", myname, path, myname);
+#ifndef COURIER
+	  fprintf (forward, "\\%s, \"|%s %s\"\n", myname, path, myname);
+#else
+	  fprintf (forward, "./Maildir\n|%s %s\n", path, myname);
+#endif		  
+  
   fclose (forward);
   chmod (FWD, 00600);
 

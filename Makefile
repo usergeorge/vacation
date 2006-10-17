@@ -3,7 +3,7 @@
 # 07/28/95 Harald Milz (hm@seneca.ix.de)
 # 04/02/97 Harald Milz (hm@seneca.muc.de)
 
-# Version 1.2.0
+# Version 1.2.7
 # 12/21/98 Harald Milz (hm@seneca.muc.de)
 #
 SHELL		= /bin/sh
@@ -34,7 +34,7 @@ MANEXT1		= 1
 
 VERSION 	= 1
 SUBVERSION 	= 2
-PATCHLEVEL	= 2
+PATCHLEVEL	= 7
 
 # what are we making
 SRC		= vacation.c
@@ -44,7 +44,7 @@ BIN		= vacation
 # what we are packaging
 PACKAGE		= ChangeLog Makefile README tzfile.h \
 		  vacation vacation.c vacation.h *.man COPYING \
-		  contrib vacation-1.2.2.lsm patches OLD
+		  contrib vacation-1.2.6.lsm patches OLD
 TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 
 # rules
@@ -53,12 +53,15 @@ all:	$(BIN)
 
 install:  all
 	install -s -m 755 $(BIN) $(VACATION)
-	install -s -m 755 vaclook $(VACLOOK)
-	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
+	install -m 755 vaclook $(VACLOOK)
+	./html2man.pl < vacation.html > $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 
 vacation:	$(SRC)
 	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
+
+courier:	$(SRC)
+	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -DCOURIER -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
 debug:	$(SRC)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
