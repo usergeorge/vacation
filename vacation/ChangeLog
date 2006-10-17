@@ -3,6 +3,10 @@
 - This version uses the modified BSD license (no advertising clause).
 - Committed to SVN unmodified.
 - Changed C++ comments to ANSI C comments (again).
+- Reapplied Precedence: bulk patch.
+- Corrected comment about new '-v' option.
+- Removed GPLv2 COPYING file.
+- Removed TODO file.
 
 2006/10/16
 - Fixed minor typo when looking for the "List-Help:" header.
