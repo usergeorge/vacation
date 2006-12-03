@@ -65,6 +65,10 @@ static char rcsid[] __attribute__ ((unused)) = "$Id$";
 **    2.realname in /etc/passwd with blank internals
 */
 
+/* Patch to avoid replying to emails marked as spam by SpamAssassin
+ * contributed by Roberto Piola, roberto@ilpiola.it - 2006/12/03
+ */
+
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -367,6 +371,10 @@ void readheaders(void)
 	break;
       cont = 1;
       goto findme;
+    case 'X':	/* Don't reply to email marked as spam by SpamAssassin */
+      if (!strncasecmp(buf, "X-Spam-Status: Yes", 18))
+	      exit(0);
+      break;
     default:
       if (!isspace(*buf) || !cont || tome) {
 	cont = 0;
