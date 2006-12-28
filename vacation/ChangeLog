@@ -1,3 +1,11 @@
+2006/12/28
+- Tagged 1.2.7.0 beta 1 !
+
+2006/12/03
+- Added patch from Roberto Piola <roberto@ilpiola.it> to avoid
+  replying to emails that have been marked as spam by SpamAssassin
+  via the "X-Spam-Status: Yes" header.
+
 2006/10/17
 - Imported the sources from http://savannah.nongnu.org/cvs/?group=vacation.
 - This version uses the modified BSD license (no advertising clause).
@@ -28,8 +36,7 @@
 - Added all rfc2369 keyword to ignore list.
 
 01/02/19:
-- Added Virutal hosts support
-  patch provided by Aleksey Barabanov (See contrib)
+- Added Virutal hosts support patch provided by Aleksey Barabanov (See contrib)
 
 01/01/06:
 - Launched as vacation-1.2.5
@@ -51,7 +58,7 @@
 
 00/07/14:
 - Patched vacation.c to disable a possible security problem.
-  This may give a remote user hen chance to execute programs.
+  This may give a remote user the chance to execute programs.
 
 00/05/29:
 - Added README.smrsh by Peter Soos.
