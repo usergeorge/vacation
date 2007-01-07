@@ -69,6 +69,8 @@ static char rcsid[] __attribute__ ((unused)) = "$Id$";
  * contributed by Roberto Piola, roberto@ilpiola.it - 2006/12/03
  */
 
+#define _GNU_SOURCE
+
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -405,6 +407,8 @@ void readheaders(void)
  */
 int nsearch(register char *name, register char *str)
 {
+#if 0
+  /* This is the old code */
   register int len;
   register char c;
   c=tolower(*name);
@@ -413,6 +417,13 @@ int nsearch(register char *name, register char *str)
     if (tolower(*str) == c && !strncasecmp(name, str, len))
       return(1);
   return(0);
+#else
+  /* New code */
+  if (strcasestr(str, name))
+      return(1);
+  else
+      return(0);
+#endif
 }
 
 /*
