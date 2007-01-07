@@ -78,4 +78,8 @@ void printd (char *message);
 char logline[MAXLINE];
 #endif
 
+/* OpenBSD string handling function prototypes */
+size_t strlcpy(char *dst, const char *src, size_t siz);
+size_t strlcat(char *dst, const char *src, size_t siz);
+
 #endif
