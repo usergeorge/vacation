@@ -230,9 +230,9 @@ int main(int argc, char **argv)
 	perror ("malloc");
 	exit (-1);
         }
-      (void) strcpy( vusername, pw->pw_name);
-      strcat( vusername, "@");
-      strcat( vusername, vdomain);
+      (void) strlcpy( vusername, pw->pw_name, MAXLINE);
+      strlcat( vusername, "@", MAXLINE);
+      strlcat( vusername, vdomain, MAXLINE);
       sendmessage(vusername, pw->pw_gecos);
       free(vusername);
     }else{    
@@ -275,22 +275,22 @@ void readheaders(void)
 	  *p = '\0';
 	  p = buf + 6;                      /* start copy here */
 	}
-	(void) strcpy(from, p);             /* actual copy */
+	(void) strlcpy(from, p, MAXLINE);             /* actual copy */
 	if ((p = index(from, '\n')))          /* was there a NL ? */
 	  *p = '\0';
 #ifdef DEBUG
-	sprintf (logline, "From: >%s<", from);
+	snprintf (logline, MAXLINE, "From: >%s<", from);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
       }
       else if (!strncasecmp(buf, "From ", 5)) { /* "From " */  
 	for (p = buf + 5; *p && *p != ' '; ++p);
 	*p = '\0';
-	(void)strcpy(uucpfrom, buf + 5);  /* this contains a bang path */
+	(void)strlcpy(uucpfrom, buf + 5, MAXLINE);  /* this contains a bang path */
 	if ((p = index(uucpfrom, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
-	sprintf (logline, "From >%s<", uucpfrom);
+	snprintf (logline, MAXLINE, "From >%s<", uucpfrom);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
       }
@@ -298,19 +298,19 @@ void readheaders(void)
 	break;                              /* other "F" header */
       if (index(from, '@') > rindex(from, '.')) { /* domain addr. complete? */
 	if ((p = rindex(uucpfrom, '!'))) {
-	  strcpy(from, p+1);
-	  strcat(from, "@");
+	  strlcpy(from, p+1, MAXLINE);
+	  strlcat(from, "@", MAXLINE);
 	  *p = '\0';
 	}
 	else
 	  exit (1);                         /* this should not occur */
 	if ((p = rindex(uucpfrom, '!'))) 
-	  strcat(from, p+1);
+	  strlcat(from, p+1, MAXLINE);
 	else
-	  strcat(from, uucpfrom);
+	  strlcat(from, uucpfrom, MAXLINE);
       }
 #ifdef DEBUG
-      sprintf (logline, "From: now: >%s<", from);
+      snprintf (logline, MAXLINE, "From: now: >%s<", from);	/* Flawfinder: ignore */
       printd (logline);
 #endif
       if (junkmail())
@@ -321,11 +321,11 @@ void readheaders(void)
       if (!strncasecmp(buf, "Reply-To:", 9)) { /* much simpler than From: */
 	for (p = buf + 10; *p && *p != ' '; ++p);
 	*p = '\0';
-	(void)strcpy(replyto, buf + 10);
+	(void)strlcpy(replyto, buf + 10, MAXLINE);
 	if ((p = index(replyto, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
-	sprintf (logline, "Reply-To: >%s<", replyto);
+	snprintf (logline, MAXLINE, "Reply-To: >%s<", replyto);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
 	if (junkmail())
@@ -335,11 +335,11 @@ void readheaders(void)
     case 'S':		/* "Subject" */
       cont = 0;
       if (!strncasecmp(buf, "Subject:", 8)) {
-	(void)strcpy(subject, buf + 9);
+	(void)strlcpy(subject, buf + 9, MAXLINE);
 	if ((p = index(subject, '\n')))
 	  *p = '\0';
 #ifdef DEBUG
-	sprintf (logline, "Subject found: >%s<", subject);
+	snprintf (logline, MAXLINE, "Subject found: >%s<", subject);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
 	if (junkmail())
@@ -391,9 +391,9 @@ void readheaders(void)
     exit(2);
   }
   if (rflag && (*replyto != 0x0))
-    strcpy (from, replyto);
+    strlcpy (from, replyto, MAXLINE);
 #ifdef DEBUG
-  sprintf (logline, "From: %s  Reply-To: %s\n", from, replyto);
+  snprintf (logline, MAXLINE, "From: %s  Reply-To: %s\n", from, replyto);	/* Flawfinder: ignore */
   printd (logline);
 #endif
 }
@@ -549,13 +549,13 @@ sendmessage(char *myname, char *myrealname)
 		}
 	if (index(myrealname, '(') || index(myrealname, ')')){
 		*buf='\"';                        /* put " around realnames with () */
-		(void) strcpy(buf+1, myrealname);
-		strcat (buf,"\"");
+		(void) strlcpy(buf+1, myrealname, MAXLINE);
+		strlcat (buf,"\"", MAXLINE);
 	} else {                                  /* this is a normal realname */
-		(void) strcpy(buf, myrealname);
+		(void) strlcpy(buf, myrealname, MAXLINE);
 	}
 #ifdef DEBUG
-	sprintf (logline, "sendmessage: using realname >%s<", buf);
+	snprintf (logline, MAXLINE, "sendmessage: using realname >%s<", buf);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
 
@@ -594,7 +594,7 @@ sendmessage(char *myname, char *myrealname)
 		subjp = strstr(buf, "$SUBJECT");
 #ifdef DEBUG
 		if (subjp) {
-			sprintf (logline, "sendmessage: found $SUBJECT %s\n", subjp);
+			snprintf (logline, MAXLINE, "sendmessage: found $SUBJECT %s\n", subjp);	/* Flawfinder: ignore */
 			printd (logline);
 		}
 #endif
@@ -603,12 +603,12 @@ sendmessage(char *myname, char *myrealname)
 			if (subjp && !(fromp && fromp < subjp)) {
 				*subjp = '\0';
 				nextp = subjp + 8;
-				sprintf (line, "%s%s", sp, subject);
+				snprintf (line, MAXLINE, "%s%s", sp, subject);	/* Flawfinder: ignore */
 				subjp = NULL;
 			} else {
 				*fromp = '\0';
 				nextp = fromp + 5;
-				sprintf (line, "%s%s", sp, from);
+				snprintf (line, MAXLINE, "%s%s", sp, from);	/* Flawfinder: ignore */
 				fromp = NULL;
 			}
 			fputs(line, sfp);
@@ -670,7 +670,7 @@ void initialize (char *path, char *myname)
     if (((editor = getenv ("EDITOR")) == NULL))
       editor = _PATH_VI;
 #ifdef DEBUG
-	sprintf (logline, "editor: %s\n", editor);
+	snprintf (logline, MAXLINE, "editor: %s\n", editor);	/* Flawfinder: ignore */
 	printd (logline);
 #endif
         
@@ -695,9 +695,9 @@ void initialize (char *path, char *myname)
     fclose (oldmessage);
   }
   fclose (message);
-  sprintf (ebuf, "%s %s", editor, VMSG);
+  snprintf (ebuf, PATH_MAX, "%s %s", editor, VMSG);	/* Flawfinder: ignore */
 #ifdef DEBUG
-	sprintf (logline, "calling editor with \"%s\"\n", ebuf);
+	snprintf (logline, MAXLINE, "calling editor with \"%s\"\n", ebuf);	/* Flawfinder: ignore */
 	printd (logline);
 #endif	
   system (ebuf);

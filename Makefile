@@ -37,14 +37,15 @@ SUBVERSION 	= 2
 PATCHLEVEL	= 7
 
 # what are we making
-SRC		= vacation.c
+SRC		= vacation.c strlcpy.c strlcat.c
 OBJ		= vacation.o 
 BIN		= vacation
+HDR		= vacation.h
 
 # what we are packaging
 PACKAGE		= ChangeLog Makefile README tzfile.h \
 		  vacation vacation.c vacation.h *.man COPYING \
-		  contrib vacation-1.2.6.lsm patches OLD
+		  contrib vacation-1.2.6.lsm patches OLD strlcpy.c strlcat.c
 TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 
 # rules
@@ -57,17 +58,17 @@ install:  all
 	./html2man.pl < vacation.html > $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 
-vacation:	$(SRC)
+vacation:	$(SRC) $(HDR)
 	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
-courier:	$(SRC)
+courier:	$(SRC) $(HDR)
 	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -DCOURIER -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
-debug:	$(SRC)
+debug:	$(SRC) $(HDR)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
 
 clean:
-	rm -f *.o core *.out Makefile.old
+	rm -f *.o core *.out Makefile.old vacation
 
 clobber: clean
 	rm -f $(BIN)
