@@ -5,6 +5,7 @@ license)
 - Modified vacation.c to use nxtaddr() from rfc822.c instead of homebrew code
 - Old behaviour can be re-enabled by adding -DOLD to compile flags.
 - Make clean now removes *~ backup files.
+- Moved externs used by getopt(3) to outside of main(), where they should be.
 - Tagged 1.2.7.0 beta 3
 
 2007/01/19

@@ -88,6 +88,10 @@ static char rcsid[] __attribute__ ((unused)) = "$Id$";
 #include "tzfile.h"
 #include "vacation.h"
 
+/* Extern definitions for getopt(3) */
+extern int optind, opterr;
+extern char *optarg;
+
 /*
  *  VACATION -- return a message to the sender when on vacation.
  *
@@ -99,8 +103,6 @@ static char rcsid[] __attribute__ ((unused)) = "$Id$";
 
 int main(int argc, char **argv)
 {
-  extern int optind, opterr;
-  extern char *optarg;
   struct passwd *pw;
   ALIAS *cur;
   time_t interval;
