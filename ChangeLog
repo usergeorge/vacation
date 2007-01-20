@@ -1,3 +1,6 @@
+2007/01/21
+- Removed the -m486 compile flag for non-PPC case, seeing as the distros were doing this already.
+
 2007/01/20
 - Bug with argument handling, -r expected an (unnecessary) option. Fixed!
 - Added ESR's rfc822.c parser from his UNIX cookbook (and fetchmail) (MIT

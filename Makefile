@@ -16,7 +16,7 @@ else
 ifeq "$(ARCH)" "ppc"
   CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall -DMAIN
 else
-  CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall -DMAIN
+  CFLAGS       = $(RPM_OPT_FLAGS) -Wall -DMAIN
 endif
 endif
 LFLAGS         = -Xlinker -warn-common
