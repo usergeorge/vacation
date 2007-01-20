@@ -11,12 +11,12 @@ CC		= gcc
 ARCH           = $(shell uname -m)
 #
 ifeq "$(ARCH)" "alpha"
-  CFLAGS       = $(RPM_OPT_FLAGS) -Wall
+  CFLAGS       = $(RPM_OPT_FLAGS) -Wall -DMAIN
 else
 ifeq "$(ARCH)" "ppc"
-  CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall
+  CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall -DMAIN
 else
-  CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall
+  CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall -DMAIN
 endif
 endif
 LFLAGS         = -Xlinker -warn-common
@@ -37,7 +37,8 @@ SUBVERSION 	= 2
 PATCHLEVEL	= 7
 
 # what are we making
-SRC		= vacation.c strlcpy.c strlcat.c
+EXTRAS		= strlcpy.c strlcat.c rfc822.c
+SRC		= vacation.c $(EXTRAS)
 OBJ		= vacation.o 
 BIN		= vacation
 HDR		= vacation.h
@@ -68,7 +69,7 @@ debug:	$(SRC) $(HDR)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
 
 clean:
-	rm -f *.o core *.out Makefile.old vacation
+	rm -f *.o core *.out *~ Makefile.old vacation
 
 clobber: clean
 	rm -f $(BIN)
