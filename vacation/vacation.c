@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 #endif
   if (argc == 1)
     nflag = 1;
-  while ((ch = getopt(argc, argv, "a:h:It:jr:v")) != EOF)
+  while ((ch = getopt(argc, argv, "a:h:It:jrv")) != EOF)
     switch((char)ch) {
     case 'a':			/* alias */
       if (!(cur = (ALIAS *)malloc((u_int)sizeof(ALIAS)))) {
