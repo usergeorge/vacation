@@ -1,5 +1,10 @@
 2007/01/20
 - Bug with argument handling, -r expected an (unnecessary) option. Fixed!
+- Added ESR's rfc822.c parser from his UNIX cookbook (and fetchmail) (MIT
+license)
+- Modified vacation.c to use nxtaddr() from rfc822.c instead of homebrew code
+- Old behaviour can be re-enabled by adding -DOLD to compile flags.
+- Make clean now removes *~ backup files.
 
 2007/01/19
 - Tagged 1.2.7.0 beta 2

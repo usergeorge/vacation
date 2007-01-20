@@ -82,4 +82,7 @@ char logline[MAXLINE];
 size_t strlcpy(char *dst, const char *src, size_t siz);
 size_t strlcat(char *dst, const char *src, size_t siz);
 
+/* fetchmail RFC2822 parsing function */
+char *nxtaddr(const char *);
+
 #endif
