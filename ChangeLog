@@ -1,4 +1,7 @@
 2007/01/21
+- Fixed typo in ChangeLog
+- Man page updated for "-i"
+- Made "-i" an alias for "-I" to initialise the database.
 - Removed the -m486 compile flag for non-PPC case, seeing as the distros were doing this already.
 
 2007/01/20
@@ -56,7 +59,7 @@ license)
 - Forgot to update ChangeLog - fixed
 - Tagged vacation_1_2_6_2_changelog
 - Forgot to update maintainer information - fixed
-- Tagger vacation_1_2_6_2_changelog_maintainer
+- Tagged vacation_1_2_6_2_changelog_maintainer
 - Released as 1.2.6.2
 
 01/08/01:
