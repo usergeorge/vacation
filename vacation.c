@@ -607,7 +607,7 @@ sendmessage(char *myname, char *myrealname)
 
 void usage(void)
 {
-  puts ("usage: vacation [ -I ]");
+  puts ("usage: vacation [ -Ii ]");
   puts ("or:    vacation [ -j ] [ -a alias ] [ -h hostname ] [ -tN ] [ -r ] login");
   exit(1);
 }
