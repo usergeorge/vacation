@@ -1,24 +1,28 @@
-# Makefile for vacation 1.2.5
-# 03/22/00 Sean Rima (thecivvie@softhome.net)
-# 07/28/95 Harald Milz (hm@seneca.ix.de)
-# 04/02/97 Harald Milz (hm@seneca.muc.de)
-
-# Version 1.2.0
-# 12/21/98 Harald Milz (hm@seneca.muc.de)
+# Makefile Authors
+# Chris Samuel (chris@csamuel.org)
+# Sean Rima (thecivvie@softhome.net)
+# Harald Milz (hm@seneca.ix.de)
 #
 SHELL		= /bin/sh
 CC		= gcc
-ARCH           = $(shell uname -m)
+ARCH           = $(uname -m)
 #
-ifeq "$(ARCH)" "alpha"
-  CFLAGS       = $(RPM_OPT_FLAGS) -Wall
+# Default CFLAGS for all builds, architecture flags get appended below.
+#
+CFLAGS		= $(RPM_OPT_FLAGS) -Wall
+ifeq "$(ARCH)" "x86_64"
+# Comment out the line below to build native 64-bit (will not read 32-bit dbs)
+  CFLAGS       = $(CFLAGS) -m32
 else
 ifeq "$(ARCH)" "ppc"
-  CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall
+  CFLAGS       = $(CFLAGS) -fsigned-char
 else
-  CFLAGS       = $(RPM_OPT_FLAGS) -Wall
+ifeq "$(ARCH)" "ppc64"
+  CFLAGS       = $(CFLAGS) -fsigned-char
 endif
 endif
+endif
+
 LFLAGS         = -Xlinker -warn-common
 
 LIBS		= -lgdbm
@@ -34,7 +38,7 @@ MANEXT1		= 1
 
 VERSION 	= 1
 SUBVERSION 	= 2
-PATCHLEVEL	= 2
+PATCHLEVEL	= 6
 
 # what are we making
 SRC		= vacation.c
@@ -64,7 +68,7 @@ debug:	$(SRC)
 	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
 
 clean:
-	rm -f *.o core *.out Makefile.old
+	rm -f *.o core *.out *~ Makefile.old vacation
 
 clobber: clean
 	rm -f $(BIN)

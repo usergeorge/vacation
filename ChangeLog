@@ -1,4 +1,9 @@
 2007/01/21
+- PATCHLEVEL in Makefile corrected to '6' (was still '2')
+- Make clean now removes *~ backup files.
+- Added -m32 for AMD64 builds, as GDBM is not portable between 32/64 bit
+  and this will break backwards compatibility for existing source users.
+- Simplified CFLAGS handling for clarity.
 - Updated man page for "-i".
 - Add -i option as alias for -I to initialise the database.
 - Removed -s option for installing vaclook - you can't strip a Perl script!
