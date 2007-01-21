@@ -1,4 +1,5 @@
 2007/01/21
+- Tagged Vacation 1.2.6.3
 - PATCHLEVEL in Makefile corrected to '6' (was still '2')
 - Make clean now removes *~ backup files.
 - Added -m32 for AMD64 builds, as GDBM is not portable between 32/64 bit
