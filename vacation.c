@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 #endif
   if (argc == 1)
     nflag = 1;
-  while ((ch = getopt(argc, argv, "a:h:It:jr")) != EOF)
+  while ((ch = getopt(argc, argv, "a:h:Iit:jr")) != EOF)
     switch((char)ch) {
     case 'a':			/* alias */
       if (!(cur = (ALIAS *)malloc((u_int)sizeof(ALIAS)))) {
@@ -131,6 +131,7 @@ int main(int argc, char **argv)
       vdomain = optarg;
       break;
     case 'I':			/* init the database */
+    case 'i':			/* init the database */
       iflag = 1;
       break;
     case 't':

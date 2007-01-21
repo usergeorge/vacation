@@ -16,7 +16,7 @@ else
 ifeq "$(ARCH)" "ppc"
   CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall
 else
-  CFLAGS       = $(RPM_OPT_FLAGS) -m486 -Wall
+  CFLAGS       = $(RPM_OPT_FLAGS) -Wall
 endif
 endif
 LFLAGS         = -Xlinker -warn-common
@@ -53,7 +53,7 @@ all:	$(BIN)
 
 install:  all
 	install -s -m 755 $(BIN) $(VACATION)
-	install -s -m 755 vaclook $(VACLOOK)
+	install -m 755 vaclook $(VACLOOK)
 	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 

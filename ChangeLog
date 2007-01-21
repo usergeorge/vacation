@@ -1,3 +1,11 @@
+2007/01/21
+- Updated man page for "-i".
+- Add -i option as alias for -I to initialise the database.
+- Removed -s option for installing vaclook - you can't strip a Perl script!
+- Fixed typo in ChangeLog
+- Removed -m486 from non-PPC builds as the distros do this already.
+- Branched 1.2.6 from 1.2.6.2 for stable support
+
 2006/08/25
 - Vacation now adds the "Precedence: bulk" header to all outgoing emails.
 - Tagged vacation_1_2_6_2
@@ -5,7 +13,7 @@
 - Forgot to update ChangeLog - fixed
 - Tagged vacation_1_2_6_2_changelog
 - Forgot to update maintainer information - fixed
-- Tagger vacation_1_2_6_2_changelog_maintainer
+- Tagged vacation_1_2_6_2_changelog_maintainer
 - Released as 1.2.6.2
 
 01/08/01:
