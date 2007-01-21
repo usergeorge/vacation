@@ -1,8 +1,12 @@
 2007/01/21
+- Fixed missing file for "make package"
+- Simplified CFLAGS handling for clarity.
 - Fixed typo in ChangeLog
 - Man page updated for "-i"
 - Made "-i" an alias for "-I" to initialise the database.
-- Removed the -m486 compile flag for non-PPC case, seeing as the distros were doing this already.
+- Removed the -m486 compile flag for non-PPC case, seeing as the
+  distros were doing this already, breaks backwards compatibility on AMD64
+  but can uncomment line in Makefile to build with -m32.
 
 2007/01/20
 - Bug with argument handling, -r expected an (unnecessary) option. Fixed!

@@ -1,24 +1,27 @@
-# Makefile for vacation 1.2.5
-# 03/22/00 Sean Rima (thecivvie@softhome.net)
-# 07/28/95 Harald Milz (hm@seneca.ix.de)
-# 04/02/97 Harald Milz (hm@seneca.muc.de)
-
-# Version 1.2.7
-# 12/21/98 Harald Milz (hm@seneca.muc.de)
+# Makefile Authors
+# Chris Samuel (chris@csamuel.org)
+# Sean Rima (thecivvie@softhome.net)
+# Harald Milz (hm@seneca.ix.de)
 #
 SHELL		= /bin/sh
 CC		= gcc
-ARCH           = $(shell uname -m)
+ARCH           = $(uname -m)
 #
-ifeq "$(ARCH)" "alpha"
-  CFLAGS       = $(RPM_OPT_FLAGS) -Wall -DMAIN
+# Default CFLAGS for all builds, architecture flags get appended below.
+CFLAGS		= $(RPM_OPT_FLAGS) -Wall -DMAIN
+ifeq "$(ARCH)" "x86_64"
+# Uncomment below for backwards compatibility of gdbm files.
+#  CFLAGS       = $(CFLAGS) -m32
 else
 ifeq "$(ARCH)" "ppc"
-  CFLAGS       = $(RPM_OPT_FLAGS) -fsigned-char -Wall -DMAIN
+  CFLAGS       = $(CFLAGS) -fsigned-char
 else
-  CFLAGS       = $(RPM_OPT_FLAGS) -Wall -DMAIN
+ifeq "$(ARCH)" "ppc64"
+  CFLAGS       = $(CFLAGS) -fsigned-char
 endif
 endif
+endif
+
 LFLAGS         = -Xlinker -warn-common
 
 LIBS		= -lgdbm
@@ -45,7 +48,7 @@ HDR		= vacation.h
 
 # what we are packaging
 PACKAGE		= ChangeLog Makefile README tzfile.h \
-		  vacation vacation.c vacation.h *.man COPYING \
+		  vacation vacation.c vacation.h *.man COPYING rfc822.c \
 		  contrib vacation-1.2.6.lsm patches OLD strlcpy.c strlcat.c
 TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 
