@@ -154,7 +154,7 @@ line is included in the header. The search for special
 senders is made case-independent.
 .SH OPTIONS
 .TP
-.B \-I
+.B \-I | \-i
 Initialize the
 .B \&.vacation.db
 file and start
