@@ -1,8 +1,14 @@
-To install Vacation: edit Makefile.
+To install Vacation:
 
-Now type 'make install'.
-This should compile and install both the vacation binary and the man page at
-their desired locations.
+First edit Makefile and change your PREFIX to set where it should go (it
+defaults to /usr at the moment, you may want /usr/local instead).
+
+Now under Linux type 'make' and under FreeBSD type 'gmake' to compile
+the program.   To install it you will need to do (as root) 'make install'
+or, for FreeBSD, 'gmake install'.
+
+That should install both the vacation binary and the man page to the
+desired location.
 
 N.B. If you encounter any difficulty in installing vacation, let me know.
 

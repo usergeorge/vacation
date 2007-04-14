@@ -1,7 +1,7 @@
 Vacation is the automatic mail answering program found with many Unix
 implementations such as SunOS and IBM AIX.
 
-This is my vacation port to Linux. It is derived from the vacation program
+This is the vacation port to Linux. It is derived from the vacation program
 found on agate.berkeley.edu in the 386bsd directory on Nov 16, 1993. The
 original program was written by Eric Allman in 1983 and is copyrighted by
 the Regents of the UCB. The copyright disclaimer is valid for this

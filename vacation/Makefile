@@ -22,17 +22,26 @@ endif
 endif
 endif
 
-LFLAGS         = -Xlinker -warn-common
+LFLAGS		= -Xlinker -warn-common
+IFLAGS		= 
 
 LIBS		= -lgdbm
 LINT		= lint -abchuvx
 LLIBS		=	
 
+# PREFIX for Linux
+PREFIX		= /usr
+
+# PREFIX for FreeBSD
+#PREFIX		= /usr/local
+#IFLAGS		= -I/usr/local/include
+#LIBS		= -L/usr/local/lib -lgdbm
+
 # where things go
-BINDIR		= /usr/bin
+BINDIR		= $(PREFIX)/bin
 VACATION        = $(BINDIR)/vacation
 VACLOOK         = $(BINDIR)/vaclook
-MANDIR		= /usr/man/man
+MANDIR		= $(PREFIX)/man/man
 MANEXT1		= 1
 
 VERSION 	= 1
@@ -63,13 +72,13 @@ install:  all
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 
 vacation:	$(SRC) $(HDR)
-	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
 courier:	$(SRC) $(HDR)
-	$(CC) $(CFLAGS) $(PFLAGS) $(LFLAGS) -DCOURIER -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(PFLAGS) $(LFLAGS) -DCOURIER -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)
 
 debug:	$(SRC) $(HDR)
-	$(CC) $(CFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
+	$(CC) $(CFLAGS) $(IFLAGS) -DDEBUG $(LFLAGS) -o $(BIN) $(SRC) $(LIBS)
 
 clean:
 	rm -f *.o core *.out *~ Makefile.old vacation
