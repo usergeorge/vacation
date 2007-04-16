@@ -5,7 +5,8 @@
 #
 SHELL		= /bin/sh
 CC		= gcc
-ARCH           = $(uname -m)
+ARCH		= $(uname -m)
+OS		= $(uname -s)
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
 CFLAGS		= $(RPM_OPT_FLAGS) -Wall -DMAIN
@@ -29,13 +30,16 @@ LIBS		= -lgdbm
 LINT		= lint -abchuvx
 LLIBS		=	
 
+ 
+ifeq "$(OS)" "FreeBSD"
+# PREFIX for FreeBSD
+PREFIX		= /usr/local
+IFLAGS		= -I/usr/local/include
+LIBS		= -L/usr/local/lib -lgdbm
+else
 # PREFIX for Linux
 PREFIX		= /usr
-
-# PREFIX for FreeBSD
-#PREFIX		= /usr/local
-#IFLAGS		= -I/usr/local/include
-#LIBS		= -L/usr/local/lib -lgdbm
+endif
 
 # where things go
 BINDIR		= $(PREFIX)/bin

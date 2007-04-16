@@ -1,3 +1,6 @@
+2007/04/16
+- Modified the Makefile to use uname -s to work out the OS to tell
+  Linux from FreeBSD and set the appropriate options.
 2007/04/14
 - Added FreeBSD compile options to the Makefile and altered the docs.
   Thanks to Marshal Newrock for the information!
