@@ -1,9 +1,14 @@
+2007/05/05
+- Tagged 1.2.7.0 beta 4
+
 2007/04/16
 - Modified the Makefile to use uname -s to work out the OS to tell
   Linux from FreeBSD and set the appropriate options.
+
 2007/04/14
 - Added FreeBSD compile options to the Makefile and altered the docs.
   Thanks to Marshal Newrock for the information!
+
 2007/01/21
 - Fixed missing file for "make package"
 - Simplified CFLAGS handling for clarity.
