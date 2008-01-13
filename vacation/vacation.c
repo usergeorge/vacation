@@ -140,9 +140,6 @@ int main(int argc, char **argv)
     case 'i':			/* init the database */
       iflag = 1;
       break;
-    case 'i':			/* init the database */
-      iflag = 1;
-      break;
     case 't':
       if (isdigit(*optarg)) {
 	interval = atol(optarg) * SECSPERDAY;  /* unit is `days' */
