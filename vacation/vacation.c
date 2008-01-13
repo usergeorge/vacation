@@ -190,6 +190,10 @@ int main(int argc, char **argv)
   {
     db = gdbm_open(VDB, 128, ((iflag || nflag) ? GDBM_NEWDB : GDBM_WRITER),
 		   0644, NULL);
+    if (!db && errno == ENOENT)
+    {
+      db = gdbm_open(VDB, 128, GDBM_NEWDB, 0644, NULL);
+    }
     if (!db && errno == EAGAIN)
       sleep((rand() & 7) + 1);
   }
