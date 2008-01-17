@@ -743,6 +743,11 @@ void printd (char *message)
   if ((p = index(timestr, '\n')))
     *p = '\0';
   file = fopen ("/tmp/vacation.log", "a");
+  if(!file)
+  {
+	  syslog(LOG_ERR, "vacation: failed to open /tmp/vacation.log (errno=%d).\n", errno);
+	  return;
+  }
   fprintf (file, "%s %s\n", timestr, message);
   fclose (file);
 }
