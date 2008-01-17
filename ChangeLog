@@ -1,3 +1,6 @@
+2008/01/17
+- Added documentation for the "-h" option to specify a domain name
+  for email replies to be from.
 2008/01/14
 - Tagged 1.2.7.0 beta 5
 

@@ -33,6 +33,9 @@ vacation \- reply to mail automatically
 .B \-j
 ]
 [
+.BI \-h " hostname"
+]
+[
 .BI \-a " alias"
 ]
 [
@@ -172,6 +175,12 @@ reads the first line from the standard input
 line, no colon).
 If absent, it produces an error message.  The following options may be
 specified:
+.TP
+.BI \-h " hostname"
+Force vacation to create emails from
+.I hostname
+rather than the default domain name.  This is for situations where you might
+be using it to respond to a virtual domain, for example.
 .TP
 .BI \-a " alias"
 Indicate that
