@@ -9,7 +9,7 @@ ARCH		= $(uname -m)
 OS		= $(uname -s)
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
-CFLAGS		= $(RPM_OPT_FLAGS) -Wall -DMAIN
+CFLAGS		= $(RPM_OPT_FLAGS) -g -Wall -DMAIN
 ifeq "$(ARCH)" "x86_64"
 # Uncomment below for backwards compatibility of gdbm files.
 #  CFLAGS       = $(CFLAGS) -m32
