@@ -28,7 +28,7 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  */
- 
+
 
 #ifndef _TZFILE_H_
 #define	_TZFILE_H_
@@ -45,13 +45,14 @@
 ** Each file begins with. . .
 */
 
-struct tzhead {
-	char	tzh_reserved[24];	/* reserved for future use */
-	char	tzh_ttisstdcnt[4];	/* coded number of trans. time flags */
-	char	tzh_leapcnt[4];		/* coded number of leap seconds */
-	char	tzh_timecnt[4];		/* coded number of transition times */
-	char	tzh_typecnt[4];		/* coded number of local time types */
-	char	tzh_charcnt[4];		/* coded number of abbr. chars */
+struct tzhead
+{
+  char tzh_reserved[24];	/* reserved for future use */
+  char tzh_ttisstdcnt[4];	/* coded number of trans. time flags */
+  char tzh_leapcnt[4];		/* coded number of leap seconds */
+  char tzh_timecnt[4];		/* coded number of transition times */
+  char tzh_typecnt[4];		/* coded number of local time types */
+  char tzh_charcnt[4];		/* coded number of abbr. chars */
 };
 
 /*

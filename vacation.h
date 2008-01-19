@@ -37,23 +37,24 @@
 #define _VACATION_H
 
 #define VACVERS "1.2.7"
-#define _PATH_SED "/bin/sed"        /* which is not mentioned in paths.h */
+#define _PATH_SED "/bin/sed"	/* which is not mentioned in paths.h */
 
-#define	MAXLINE	1024			/* max line from mail header */
-#define	VDB	".vacation.db"		/* dbm's database */
-#define	VMSG	".vacation.msg"		/* vacation message */
-#define	OLDVMSG	".vacation.old"		/* previous vacation message */
+#define	MAXLINE	1024		/* max line from mail header */
+#define	VDB	".vacation.db"	/* dbm's database */
+#define	VMSG	".vacation.msg"	/* vacation message */
+#define	OLDVMSG	".vacation.old"	/* previous vacation message */
 #ifndef COURIER
-	#define FWD     ".forward"              /* forward file */
-	#define OLDFWD  ".forward.old"          /* previous forward file */
+#define FWD     ".forward"	/* forward file */
+#define OLDFWD  ".forward.old"	/* previous forward file */
 #else
-	#define FWD     ".courier"              /* forward file */
-	#define OLDFWD  ".courier.old"          /* previous forward file */
+#define FWD     ".courier"	/* forward file */
+#define OLDFWD  ".courier.old"	/* previous forward file */
 #endif
 
-typedef struct alias {
-	struct alias *next;
-	char *name;
+typedef struct alias
+{
+  struct alias *next;
+  char *name;
 } ALIAS;
 ALIAS *names;
 
@@ -62,27 +63,27 @@ GDBM_FILE db;
 char from[MAXLINE];
 char subject[MAXLINE];
 char replyto[MAXLINE];
-int jflag, rflag;                      /* for the `-j' and `-r' options */
+int jflag, rflag;		/* for the `-j' and `-r' options */
 
-void readheaders(void);
-void usage(void);
-void setinterval(time_t interval);
-int recent(void);
-void setreply(void);
-void sendmessage(char *myname, char *myrealname);
-int junkmail(void);
-int nsearch(register char *name, register char *str);
-void initialize(char *path, char*myname);
+void readheaders (void);
+void usage (void);
+void setinterval (time_t interval);
+int recent (void);
+void setreply (void);
+void sendmessage (char *myname, char *myrealname);
+int junkmail (void);
+int nsearch (register char *name, register char *str);
+void initialize (char *path, char *myname);
 #ifdef DEBUG
 void printd (char *message);
 char logline[MAXLINE];
 #endif
 
 /* OpenBSD string handling function prototypes */
-size_t strlcpy(char *dst, const char *src, size_t siz);
-size_t strlcat(char *dst, const char *src, size_t siz);
+size_t strlcpy (char *dst, const char *src, size_t siz);
+size_t strlcat (char *dst, const char *src, size_t siz);
 
 /* fetchmail RFC2822 parsing function */
-char *nxtaddr(const char *);
+char *nxtaddr (const char *);
 
 #endif

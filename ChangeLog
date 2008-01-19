@@ -1,8 +1,10 @@
+2008/01/19
+- Mega update - reformatted everything to the GNU coding style using GNU indent, 
+- Tidied up the ChangeLog
+
 2008/01/17
-- Added documentation for the "-h" option to specify a domain name
-  for email replies to be from.
-- Fixed bug where in DEBUG mode an unchecked fopen() would cause a
-  crash if it failed.
+- Added documentation for the "-h" option to specify a domain name for email replies to be from.
+- Fixed bug where in DEBUG mode an unchecked fopen() would cause a crash if it failed.
 - Added -g flag to use debug info by default.
 
 2008/01/14
@@ -10,21 +12,17 @@
 
 2008/01/13
 - Fixed brown paper bag bug - duplicate case statements stopped it compiling!
-
-- Added patch from Jacek Kalinski that automatically creates
-  a vacation database for users who do not have one.  Stops
-  vacation dieing if they have forgotten to init the database.
+- Added patch from Jacek Kalinski that automatically creates a vacation database for users who do not have one.  Stops vacation dieing if they have forgotten to init the database.
 
 2007/05/05
 - Tagged 1.2.7.0 beta 4
 
 2007/04/16
-- Modified the Makefile to use uname -s to work out the OS to tell
-  Linux from FreeBSD and set the appropriate options.
+- Modified the Makefile to use uname -s to work out the OS to tell Linux from FreeBSD and set the appropriate options.
 
 2007/04/14
 - Added FreeBSD compile options to the Makefile and altered the docs.
-  Thanks to Marshal Newrock for the information!
+- Thanks to Marshal Newrock for the information!
 
 2007/01/21
 - Fixed missing file for "make package"
@@ -32,14 +30,11 @@
 - Fixed typo in ChangeLog
 - Man page updated for "-i"
 - Made "-i" an alias for "-I" to initialise the database.
-- Removed the -m486 compile flag for non-PPC case, seeing as the
-  distros were doing this already, breaks backwards compatibility on AMD64
-  but can uncomment line in Makefile to build with -m32.
+- Removed the -m486 compile flag for non-PPC case, seeing as the distros were doing this already, breaks backwards compatibility on AMD64 but can uncomment line in Makefile to build with -m32.
 
 2007/01/20
 - Bug with argument handling, -r expected an (unnecessary) option. Fixed!
-- Added ESR's rfc822.c parser from his UNIX cookbook (and fetchmail) (MIT
-license)
+- Added ESR's rfc822.c parser from his UNIX cookbook (and fetchmail) (MIT license)
 - Modified vacation.c to use nxtaddr() from rfc822.c instead of homebrew code
 - Old behaviour can be re-enabled by adding -DOLD to compile flags.
 - Make clean now removes *~ backup files.
@@ -64,9 +59,7 @@ license)
 - Tagged 1.2.7.0 beta 1 !
 
 2006/12/03
-- Added patch from Roberto Piola <roberto@ilpiola.it> to avoid
-  replying to emails that have been marked as spam by SpamAssassin
-  via the "X-Spam-Status: Yes" header.
+- Added patch from Roberto Piola <roberto@ilpiola.it> to avoid replying to emails that have been marked as spam by SpamAssassin via the "X-Spam-Status: Yes" header.
 
 2006/10/17
 - Imported the sources from http://savannah.nongnu.org/cvs/?group=vacation.
@@ -119,8 +112,7 @@ license)
 
 
 00/07/14:
-- Patched vacation.c to disable a possible security problem.
-  This may give a remote user the chance to execute programs.
+- Patched vacation.c to disable a possible security problem.  This may give a remote user the chance to execute programs.
 
 00/05/29:
 - Added README.smrsh by Peter Soos.
@@ -130,8 +122,7 @@ license)
 
 00/04/08:
 - Alpha code is released as vacation-1.2.2
-- Problem with vacation not sending .vacation.msg is fixed by 
-  Stefan Muenkner's patch. Thanks Stefan :)
+- Problem with vacation not sending .vacation.msg is fixed by Stefan Muenkner's patch. Thanks Stefan :)
 
 00/04/01:
 - CVS is now available for annoynmous use:
@@ -162,8 +153,7 @@ license)
 
 95/10/05:
 
-- added contrib/ directory and "vaclook" script by Jeff Uphoff. (thank
-  you, Jeff)
+- added contrib/ directory and "vaclook" script by Jeff Uphoff. (thank you, Jeff)
 
 95/08/05:
 
@@ -175,9 +165,7 @@ license)
 
 95/07/31:
 
-- bug fix in sendmessage() (call gdbm_close() on closed file) and
-  initialize() (allow odd $VISUAL and $EDITOR settings) by Jeff Uphoff
-  (juphoff@tarsier.cv.nrao.edu).
+- bug fix in sendmessage() (call gdbm_close() on closed file) and initialize() (allow odd $VISUAL and $EDITOR settings) by Jeff Uphoff (juphoff@tarsier.cv.nrao.edu).
 - vacation now syslogs to the LOG_MAIL facility.
 
 95/07/27:
@@ -191,12 +179,7 @@ license)
 
 93/11/19:
 
-- improved capability to recognize the sender's internet address. The
-  old version (1983!) extracted it from the "From " line which holds a
-  UUCP bang path to the sender. Now, the address is extracted from the
-  "From: " line which holds the address in domain name style which is
-  less confusing to modern mail transport agents. If "From:" does not
-  contain a `good' address, the UUCP bang path is converted.
+- improved capability to recognize the sender's internet address. The old version (1983!) extracted it from the "From " line which holds a UUCP bang path to the sender. Now, the address is extracted from the "From: " line which holds the address in domain name style which is less confusing to modern mail transport agents. If "From:" does not contain a `good' address, the UUCP bang path is converted.
 - included manpages for aliases(5) and forward(5)
 - set version number to 0.9. Version should be fairly complete.
 
