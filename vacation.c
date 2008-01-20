@@ -493,6 +493,8 @@ junkmail (void)
     {
     "List-Post", 9},
     {
+    "List-Id", 7},
+    {
     "List-Owner", 10},
     {
     "List-Archive", 12},

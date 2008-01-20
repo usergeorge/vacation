@@ -1,5 +1,8 @@
+2008/01/20
+- Added List-Id to the headers that junkmail() searches for.
+
 2008/01/19
-- Mega update - reformatted everything to the GNU coding style using GNU indent, 
+- Mega update - reformatted everything to the GNU coding style using GNU indent
 - Tidied up the ChangeLog
 
 2008/01/17
