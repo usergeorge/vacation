@@ -1,5 +1,6 @@
 2008/01/20
 - Added List-Id to the headers that junkmail() searches for.
+- Removed the old code for parsing email addresses, the new rfc822.c works so much better!
 
 2008/01/19
 - Mega update - reformatted everything to the GNU coding style using GNU indent

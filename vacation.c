@@ -275,9 +275,6 @@ readheaders (void)
 {
   register ALIAS *cur;
   register char *p;
-#ifdef OLD
-  register char *p2;
-#endif /* OLD */
   int tome, cont;
   char buf[MAXLINE];
   char uucpfrom[MAXLINE];
@@ -292,25 +289,7 @@ readheaders (void)
 	cont = 0;
 	if (!strncasecmp (buf, "From:", 5))
 	  {			/* "From:" */
-#ifdef OLD
-	    if ((p = index (buf, '>')) && (p2 = index (buf, '<')) && p > p2)
-	      {
-		/* address in <> ? */
-		*p = '\0';	/* let string end here */
-		p = p2 + 1;	/* and start copy here */
-	      }
-	    else
-	      {			/* address isolated */
-		for (p = buf + 6; *p && *p != ' ' && *p != ','; ++p);
-		*p = '\0';
-		p = buf + 6;	/* start copy here */
-	      }
-	    (void) strlcpy (from, p, MAXLINE);	/* actual copy */
-	    if ((p = index (from, '\n')))	/* was there a NL ? */
-	      *p = '\0';
-#else
 	    (void) strlcpy (from, nxtaddr (buf), MAXLINE);
-#endif /* OLD */
 #ifdef DEBUG
 	    snprintf (logline, MAXLINE, "From: >%s<", from);	/* Flawfinder: ignore */
 	    printd (logline);
@@ -356,15 +335,7 @@ readheaders (void)
 	cont = 0;
 	if (!strncasecmp (buf, "Reply-To:", 9))
 	  {			/* much simpler than From: */
-#ifdef OLD
-	    for (p = buf + 10; *p && *p != ' '; ++p);
-	    *p = '\0';
-	    (void) strlcpy (replyto, buf + 10, MAXLINE);
-	    if ((p = index (replyto, '\n')))
-	      *p = '\0';
-#else
 	    (void) strlcpy (replyto, nxtaddr (buf), MAXLINE);
-#endif /* OLD */
 #ifdef DEBUG
 	    snprintf (logline, MAXLINE, "Reply-To: >%s<", replyto);	/* Flawfinder: ignore */
 	    printd (logline);
