@@ -9,7 +9,7 @@ ARCH           = $(uname -m)
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
 #
-CFLAGS		= $(RPM_OPT_FLAGS) -Wall
+CFLAGS		= $(RPM_OPT_FLAGS) -Wall -D_FORTIFY_SOURCE=2
 ifeq "$(ARCH)" "x86_64"
 # Comment out the line below to build native 64-bit (will not read 32-bit dbs)
   CFLAGS       = $(CFLAGS) -m32
