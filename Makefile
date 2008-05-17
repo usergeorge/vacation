@@ -33,7 +33,7 @@ LLIBS		=
 BINDIR		= /usr/bin
 VACATION        = $(BINDIR)/vacation
 VACLOOK         = $(BINDIR)/vaclook
-MANDIR		= /usr/man/man
+MANDIR		= /usr/share/man/man
 MANEXT1		= 1
 
 VERSION 	= 1

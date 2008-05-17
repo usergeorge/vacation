@@ -1,3 +1,5 @@
+2008/05/17
+- Fixed MANDIR to be /usr/share/man. Thanks to David Whitehouse for the pointer!
 2007/01/21
 - Forgot to update usage for "-i", tagged 1.2.6.3_usage for release as 1.2.6.3
 - Tagged Vacation 1.2.6.3
