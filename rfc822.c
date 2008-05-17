@@ -24,6 +24,11 @@ MIT license.  Compile with -DMAIN to build the demonstrator.
 #include  <string.h>
 #include  <stdlib.h>
 
+#ifndef lint
+/*static char sccsid[] = "from: @(#)vacation.c  5.19 (Berkeley) 3/23/91";*/
+static char rcsid[] __attribute__ ((unused)) =
+  "$Id$";
+#endif /* not lint */
 
 #ifndef MAIN
 #include "fetchmail.h"
