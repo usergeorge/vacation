@@ -9,7 +9,7 @@ ARCH           = $(uname -m)
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
 #
-CFLAGS		= $(RPM_OPT_FLAGS) -Wall
+CFLAGS		= $(RPM_OPT_FLAGS) -Wall -D_FORTIFY_SOURCE=2
 ifeq "$(ARCH)" "x86_64"
 # Comment out the line below to build native 64-bit (will not read 32-bit dbs)
   CFLAGS       = $(CFLAGS) -m32
@@ -33,7 +33,7 @@ LLIBS		=
 BINDIR		= /usr/bin
 VACATION        = $(BINDIR)/vacation
 VACLOOK         = $(BINDIR)/vaclook
-MANDIR		= /usr/man/man
+MANDIR		= /usr/share/man/man
 MANEXT1		= 1
 
 VERSION 	= 1
