@@ -1,6 +1,11 @@
+2008/05/19
+- Fix trivial memory leak when checking for recent emails in the GDBM db.
+- Reformatted source with indent to allow application of patches from other branches.
+
 2008/05/17
 - Fixed MANDIR to be /usr/share/man. Thanks to David Whitehouse for the pointer!
 - Tagged vacation 1.2.6.4
+
 2007/01/21
 - Forgot to update usage for "-i", tagged 1.2.6.3_usage for release as 1.2.6.3
 - Tagged Vacation 1.2.6.3
