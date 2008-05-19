@@ -534,7 +534,11 @@ recent (void)
   if (data.dptr == NULL)
     next = SECSPERDAY * DAYSPERWEEK;	/* default repeat time is one week */
   else
-    bcopy (data.dptr, &next, sizeof (next));
+    {
+      bcopy (data.dptr, &next, sizeof (next));
+      /* Safely stashed in next, now we can release the GDBM pointer */
+      free (data.dptr);
+    }
 
   /* get record for this address */
   key.dptr = from;
@@ -543,10 +547,12 @@ recent (void)
   if (data.dptr != NULL)
     {
       bcopy (data.dptr, &then, sizeof (then));
+      /* Safely stashed in then, we can free the GDBM pointer now */
+      free (data.dptr);
       if (next == LONG_MAX || then + next > time (NULL))
-	return (1);
+	return (1);		/* Return 1 to say we've had a recent message */
     }
-  return (0);
+  return (0);			/* Drop through to return 0 to say no recent message */
 }
 
 /*
