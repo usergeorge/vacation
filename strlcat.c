@@ -19,6 +19,12 @@
 #include <sys/types.h>
 #include <string.h>
 
+#ifndef lint
+/*static char sccsid[] = "from: @(#)vacation.c  5.19 (Berkeley) 3/23/91";*/
+static char rcsid[] __attribute__ ((unused)) =
+  "$Id$";
+#endif /* not lint */
+
 /*
  * Appends src to string dst of size siz (unlike strncat, siz is the
  * full size of dst, not space left).  At most siz-1 characters
@@ -33,6 +39,10 @@ strlcat (char *dst, const char *src, size_t siz)
   const char *s = src;
   size_t n = siz;
   size_t dlen;
+
+  /* If destination or source are NULL return 0 bytes copied */
+  if ( (!dst) || (!src) )
+    return(0);
 
   /* Find the end of dst and adjust bytes left but don't go past end */
   while (n-- != 0 && *d != '\0')

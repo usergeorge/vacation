@@ -24,13 +24,20 @@ MIT license.  Compile with -DMAIN to build the demonstrator.
 #include  <string.h>
 #include  <stdlib.h>
 
+#ifndef lint
+/*static char sccsid[] = "from: @(#)vacation.c  5.19 (Berkeley) 3/23/91";*/
+static char rcsid[] __attribute__ ((unused)) =
+  "$Id$";
+#endif /* not lint */
 
 #ifndef MAIN
 #include "fetchmail.h"
 #include "i18n.h"
 #else
 #include  <unistd.h>
+#ifdef DEBUG
 static int verbose;
+#endif /* DEBUG */
 char *program_name = "rfc822";
 #endif /* MAIN */
 
@@ -92,7 +99,7 @@ reply_hack (char *buf /* header to be hacked */ ,
   has_host_part = has_bare_name_part = FALSE;
   for (from = buf; *from; from++)
     {
-#ifdef MAIN
+#if defined( MAIN ) && defined ( DEBUG )
       if (verbose)
 	{
 	  printf ("state %d: %s", state, buf);
@@ -250,7 +257,7 @@ nxtaddr (const char *hdr
 
   for (; *hp; hp++)
     {
-#ifdef MAIN
+#if defined( MAIN ) && defined ( DEBUG )
       if (verbose)
 	{
 	  printf ("state %d: %s", state, orighdr);
