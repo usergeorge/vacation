@@ -1,3 +1,11 @@
+2008/06/29
+- Wrap _GNU_SOURCE #def in a #ifdef to suppress warning.
+- Fix remaining g++ string related warnings.
+
+2008/06/23
+- Fix missing cast that stops vacation compiling with g++
+- Fix various other g++ warnings due to lack of const in char * defs.
+
 2008/06/16
 - Tagged 1.2.7.0-rc2 as no more bugs reported in rc1.
 

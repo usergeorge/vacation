@@ -38,7 +38,7 @@ static char rcsid[] __attribute__ ((unused)) =
 #ifdef DEBUG
 static int verbose;
 #endif /* DEBUG */
-char *program_name = "rfc822";
+const char *program_name = "rfc822";
 #endif /* MAIN */
 
 #ifndef TRUE
