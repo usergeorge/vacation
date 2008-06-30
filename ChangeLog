@@ -1,3 +1,6 @@
+2008/06/30
+- Fix last g++ warning - thanks to Daniel Pittman of Linux Users of Victoria!
+
 2008/06/29
 - Wrap _GNU_SOURCE #def in a #ifdef to suppress warning.
 - Fix remaining g++ string related warnings.
