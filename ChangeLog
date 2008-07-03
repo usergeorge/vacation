@@ -1,3 +1,33 @@
+2008/07/03
+- Tagged Vacation 1.2.7.0
+
+2008/06/30
+- Fix last g++ warning - thanks to Daniel Pittman of Linux Users of Victoria!
+
+2008/06/29
+- Wrap _GNU_SOURCE #def in a #ifdef to suppress warning.
+- Fix remaining g++ string related warnings.
+
+2008/06/23
+- Fix missing cast that stops vacation compiling with g++
+- Fix various other g++ warnings due to lack of const in char * defs.
+
+2008/06/16
+- Tagged 1.2.7.0-rc2 as no more bugs reported in rc1.
+
+2008/05/31
+- Make "verbose" option code in rfc822.c depend on DEBUG being defined to supress compiler warnings.
+- Fix my Id header stuffup in the ChangeLog. :-)
+
+2008/05/19
+- Fix trivial memory leak when checking for recent emails in the GDBM db.
+
+2008/05/17
+- Fix segmentation fault in strlcpy() when passed a NULL source string.
+- Added KNOWN_BUGS file.
+- Added Id header to rfc822.c, strlcat.c and strlcpy.c
+- Tagged 1.2.7.0-rc1
+
 2008/01/20
 - Added List-Id to the headers that junkmail() searches for.
 - Removed the old code for parsing email addresses, the new rfc822.c works so much better!

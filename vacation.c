@@ -70,7 +70,9 @@ static char rcsid[] __attribute__ ((unused)) =
  * contributed by Roberto Piola, roberto@ilpiola.it - 2006/12/03
  */
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif /* _GNU_SOURCE */
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -118,7 +120,7 @@ main (int argc, char **argv)
   interval = -1;
   vdomain = NULL;
 #ifdef _PATH_VACATION
-  vacation = _PATH_VACATION;
+  vacation = (char *) _PATH_VACATION;
 #else
   vacation = argv[0];
 #endif
@@ -195,11 +197,11 @@ main (int argc, char **argv)
 
   do
     {
-      db = gdbm_open (VDB, 128, ((iflag || nflag) ? GDBM_NEWDB : GDBM_WRITER),
+      db = gdbm_open ((char *) VDB, 128, ((iflag || nflag) ? GDBM_NEWDB : GDBM_WRITER),
 		      0644, NULL);
       if (!db && errno == ENOENT)
 	{
-	  db = gdbm_open (VDB, 128, GDBM_NEWDB, 0644, NULL);
+	  db = gdbm_open ((char *) VDB, 128, GDBM_NEWDB, 0644, NULL);
 	}
       if (!db && errno == EAGAIN)
 	sleep ((rand () & 7) + 1);
@@ -228,7 +230,7 @@ main (int argc, char **argv)
       exit (0);
     }
 
-  if (!(cur = malloc ((u_int) sizeof (ALIAS))))
+  if (!(cur = (ALIAS *) malloc ((u_int) sizeof (ALIAS))))
     exit (1);
   cur->name = pw->pw_name;
   cur->next = names;
@@ -448,7 +450,7 @@ junkmail (void)
 {
   static struct ignore
   {
-    char *name;
+    const char *name;
     int len;
   } ignore[] =
   {
@@ -528,13 +530,17 @@ recent (void)
   time_t then, next;
 
   /* get interval time */
-  key.dptr = VIT;
+  key.dptr = (char *) VIT;
   key.dsize = sizeof (VIT);
   data = gdbm_fetch (db, key);
   if (data.dptr == NULL)
     next = SECSPERDAY * DAYSPERWEEK;	/* default repeat time is one week */
   else
-    bcopy (data.dptr, &next, sizeof (next));
+    {
+      bcopy (data.dptr, &next, sizeof (next));
+      /* Safely stashed in next, now we can release the GDBM pointer */
+      free (data.dptr);
+    }
 
   /* get record for this address */
   key.dptr = from;
@@ -543,10 +549,12 @@ recent (void)
   if (data.dptr != NULL)
     {
       bcopy (data.dptr, &then, sizeof (then));
+      /* Safely stashed in then, we can free the GDBM pointer now */
+      free (data.dptr);
       if (next == LONG_MAX || then + next > time (NULL))
-	return (1);
+	return (1);		/* Return 1 to say we've had a recent message */
     }
-  return (0);
+  return (0);			/* Drop through to return 0 to say no recent message */
 }
 
 /*
@@ -558,7 +566,7 @@ setinterval (time_t interval)
 {
   datum key, data;
 
-  key.dptr = VIT;
+  key.dptr = (char *) VIT;
   key.dsize = sizeof (VIT);
   data.dptr = (char *) &interval;
   data.dsize = sizeof (interval);
@@ -750,7 +758,7 @@ initialize (char *path, char *myname)
 
   if (((editor = getenv ("VISUAL")) == NULL))
     if (((editor = getenv ("EDITOR")) == NULL))
-      editor = _PATH_VI;
+      editor = (char *) _PATH_VI;
 #ifdef DEBUG
   snprintf (logline, MAXLINE, "editor: %s\n", editor);	/* Flawfinder: ignore */
   printd (logline);

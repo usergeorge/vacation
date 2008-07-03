@@ -58,7 +58,7 @@ typedef struct alias
 } ALIAS;
 ALIAS *names;
 
-GDBM_FILE db;
+static GDBM_FILE db;
 
 char from[MAXLINE];
 char subject[MAXLINE];
