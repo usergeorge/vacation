@@ -1,3 +1,8 @@
+2008/07/13
+- Added the vacation.spec file contributed by Magnus Stenman.
+- Removed all references to the MAIN define from rfc822.c.
+- Removed the -DMAIN compiler option from the Makefile.
+
 2008/07/03
 - Tagged Vacation 1.2.7.0
 
