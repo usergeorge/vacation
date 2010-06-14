@@ -598,33 +598,14 @@ setreply (void)
 void
 sendmessage (char *myname, char *myrealname)
 {
-  register char *p;
   FILE *mfp, *sfp;
   int i;
   int pvect[2];
   char buf[MAXLINE];
   char line[MAXLINE];
 
-  if ((p = index (myrealname, ',')))
-    {				/* realname with , ? */
-      *p = '\0';		/* let string end here */
-    }
-  while ((p = index (myrealname, ' ')))
-    {
-      *p = '_';			/* replace all blanks to underlines */
-    }
-  if (index (myrealname, '(') || index (myrealname, ')'))
-    {
-      *buf = '\"';		/* put " around realnames with () */
-      (void) strlcpy (buf + 1, myrealname, MAXLINE);
-      strlcat (buf, "\"", MAXLINE);
-    }
-  else
-    {				/* this is a normal realname */
-      (void) strlcpy (buf, myrealname, MAXLINE);
-    }
 #ifdef DEBUG
-  snprintf (logline, MAXLINE, "sendmessage: using realname >%s<", buf);	/* Flawfinder: ignore */
+  snprintf (logline, MAXLINE, "sendmessage: using realname >%s<", myrealname);	/* Flawfinder: ignore */
   printd (logline);
 #endif
 
@@ -651,7 +632,7 @@ sendmessage (char *myname, char *myrealname)
       close (pvect[0]);
       close (pvect[1]);
       fclose (mfp);
-      execl (_PATH_SENDMAIL, "sendmail", "-f", myname, "-F", buf, "--", from,
+      execl (_PATH_SENDMAIL, "sendmail", "-f", myname, "-F", myrealname, "--", from,
 	     NULL);
       syslog (LOG_ERR, "vacation: can't exec %s: %s", _PATH_SENDMAIL,
 	      strerror (errno));
