@@ -1,3 +1,7 @@
+2010/06/16
+- Add the Auto-Submitted: header as per RFC3834 - patch from Dr. Tilmann Bubeck.
+- Applied patch from Dr. Tilmann Bubeck to stop Vacation from munging the GECOS information of users and instead pass it quoted to the MTA for it to deal with.
+
 2008/07/13
 - Added the vacation.spec file contributed by Magnus Stenman.
 - Removed all references to the MAIN define from rfc822.c.
