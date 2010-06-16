@@ -633,6 +633,7 @@ sendmessage (char *myname, char *myrealname)
   close (pvect[0]);
   sfp = fdopen (pvect[1], "w");
   fprintf (sfp, "Precedence: bulk\n");
+  fprintf (sfp, "Auto-Submitted: auto-replied\n" ); /* RFC-3834 */
   fprintf (sfp, "User-Agent: %s http://vacation.sourceforge.net\n", VACVERS);
   fprintf (sfp, "To: %s\n", from);
   while (fgets (buf, sizeof buf, mfp))
