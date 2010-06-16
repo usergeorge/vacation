@@ -1,3 +1,7 @@
+2010/06/16
+- Add the Auto-Submitted: header as per RFC3834 - patch from Dr. Tilmann Bubeck.
+- Applied patch from Dr. Tilmann Bubeck to stop Vacation from munging the GECOS information of users and instead pass it quoted to the MTA for it to deal with.
+
 2008/01/25
 - Added Paul Hsieh's BSD licensed bstrlib library from http://bstring.sf.net/
 
