@@ -19,6 +19,13 @@
 #include <sys/types.h>
 #include <string.h>
 
+#ifndef lint
+/*static char sccsid[] = "from: @(#)vacation.c  5.19 (Berkeley) 3/23/91";*/
+static char rcsid[] __attribute__ ((unused)) =
+  "$Id$";
+#endif /* not lint */
+
+
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
@@ -30,6 +37,10 @@ strlcpy (char *dst, const char *src, size_t siz)
   char *d = dst;
   const char *s = src;
   size_t n = siz;
+
+  /* If destination or source are NULL return 0 bytes copied */
+  if ( (!dst) || (!src) )
+    return(0);
 
   /* Copy as many bytes as will fit */
   if (n != 0)

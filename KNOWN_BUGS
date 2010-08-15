@@ -1,0 +1,17 @@
+Vacation known bugs - $Id$
+
+------------------------------------------------------------------------
+
+1. Does not handle wrapped (multi-line) headers at all.
+   Sourceforge bugs 1716313 and 1886431.
+
+   Currently being worked on in trunk using a new implementation of the
+   code to read RFC-2822 headers using a new string library.
+
+------------------------------------------------------------------------
+
+Please report other issues to SourceForge at:
+
+https://sourceforge.net/tracker/?func=add&group_id=3852&atid=103852
+
+Thank you!
