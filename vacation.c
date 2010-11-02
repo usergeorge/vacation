@@ -375,6 +375,19 @@ readheaders (void)
 	    !strncasecmp (p, "list", 4) || !strncasecmp (p, "bulk", 4))
 	  exit (0);
 	break;
+      case 'A':		/* "Auto-Submitted:" */
+	cont = 0;
+	if (strncasecmp (buf, "Auto-Submitted", 14) ||
+	    (buf[14] != ':' && buf[14] != ' ' && buf[14] != '\t'))
+	  break;
+	if (!(p = index (buf, ':')))
+	  break;
+	while (*++p && isspace (*p));
+	if (!*p)
+	  break;
+	if (strncasecmp (p, "no", 2))
+	  exit (0);
+	break;
       case 'C':		/* "Cc:" */
 	if (strncasecmp (buf, "Cc:", 3))
 	  break;
