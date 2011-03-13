@@ -114,6 +114,7 @@ main (int argc, char **argv)
   char *vacation;
   char *vdomain;
   char *vusername;
+  char tmpusername[ 1024 ];
 
   openlog ("vacation", LOG_PID, LOG_MAIL);
   opterr = iflag = nflag = rflag = 0;
@@ -186,7 +187,8 @@ main (int argc, char **argv)
     }
   else if (!(pw = getpwnam (*argv)))
     {
-      syslog (LOG_ERR, "vacation: no such user %s.\n", *argv);
+      snprintf( tmpusername, 1023, "%s", *argv );
+      syslog (LOG_ERR, "vacation: no such user %s.\n", tmpusername);
       exit (1);
     }
   if (chdir (pw->pw_dir))
