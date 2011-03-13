@@ -766,7 +766,6 @@ initialize (char *path, char *myname)
 	  fprintf (stderr, "vacation: cannot open %s\n", VMSG);
 	  exit (1);
 	}
-      message = fopen (VMSG, "w");
       fprintf (message, "Subject: away from my mail\n\n");
       fprintf (message, "I will not be reading my mail for a while.\n");
       fprintf (message, "Your mail concerning \"$SUBJECT\"\n");
