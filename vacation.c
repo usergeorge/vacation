@@ -709,7 +709,7 @@ initialize (char *path, char *myname)
 {
   char *editor;
   char ebuf[PATH_MAX];
-  char c;
+  unsigned char c;
   FILE *message;
   FILE *oldmessage;
   FILE *forward;
