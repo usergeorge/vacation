@@ -711,7 +711,7 @@ initialize (char *path, char *myname)
 {
   char *editor;
   char ebuf[PATH_MAX];
-  unsigned char c;
+  int  c;
   FILE *message;
   FILE *oldmessage;
   FILE *forward;
@@ -734,7 +734,7 @@ initialize (char *path, char *myname)
 	}
       while (((c = fgetc (forward)) != EOF))
 	{
-	  fprintf (oldforward, "%c", c);
+	  fprintf (oldforward, "%c", ( unsigned char ) c);
 	  chmod (OLDFWD, 00600);
 	}
       fclose (oldforward);
@@ -782,7 +782,7 @@ initialize (char *path, char *myname)
 	}
       while (((c = fgetc (message)) != EOF))
 	{
-	  fprintf (oldmessage, "%c", c);
+	  fprintf (oldmessage, "%c", ( unsigned char ) c);
 	}
       fclose (oldmessage);
     }
