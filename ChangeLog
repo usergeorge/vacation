@@ -40,9 +40,6 @@
 - Added Id header to rfc822.c, strlcat.c and strlcpy.c
 - Tagged 1.2.7.0-rc1
 
-2008/01/25
-- Added Paul Hsieh's BSD licensed bstrlib library from http://bstring.sf.net/
-
 2008/01/20
 - Added List-Id to the headers that junkmail() searches for.
 - Removed the old code for parsing email addresses, the new rfc822.c works so much better!
