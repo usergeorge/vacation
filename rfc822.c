@@ -207,7 +207,9 @@ nxtaddr (const char *hdr
   static size_t tp;
   static const char *hp;
   static int state, oldstate;
+#if defined ( DEBUG )
   static const char *orighdr;
+#endif /* DEBUG */
   int parendepth = 0;
 
 #define START_HDR	0	/* before header colon */
@@ -224,7 +226,9 @@ nxtaddr (const char *hdr
     {
       hp = hdr;
       state = START_HDR;
+#if defined ( DEBUG )
       orighdr = hdr;
+#endif /* DEBUG */
       tp = 0;
     }
 

@@ -1,4 +1,8 @@
 2011/10/20
+- Ensure orighdr is only used with DEBUG enabled, keeps GCC 4.6 quiet.
+  This is a post beta2 change.
+
+2011/10/20
 - Tagged Vacation 1.2.7.1-beta2
 
 2011/03/15
