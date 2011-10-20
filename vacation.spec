@@ -1,6 +1,6 @@
 Summary: vacation, an automatic mail answering program
 Name: vacation
-Version: 1.2.7.0
+Version: 1.2.7.1-beta2
 Release: 1
 Source: http://download.sourceforge.net/vacation/vacation-%{version}.tar.gz
 License: GPL
@@ -45,6 +45,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Oct 20 2011 Chris Samuel <chris@csamuel.org>
+- upgrade to version 1.2.7.1-beta2
+
 * Tue Jul  8 2008 Magnus Stenman <stone@hkust.se>
 - Spec from Guardian Digital, Inc. <http://www.guardiandigital.com>
 - Version 1.2.7.0
