@@ -1,0 +1,294 @@
+.\" -*-nroff-*-
+.\"
+.\"
+.\"     Copyright (C) 2011 Dr. Tilmann Bubeck <t.bubeck@reinform.de>
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 2 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program; if not, write to the Free Software
+.\"     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111, USA.
+.\"
+.TH vacation 1 "Oktober 2011" Unix "Benutzerhandbuch"
+.UC 1
+.SH NAME
+vacation \- beantwortet eingehende Mails automatisch
+.PP
+.SH ÜBERSICHT
+.B vacation
+[
+.B \-I | \-i
+]
+.br
+.B vacation
+[
+.B \-j
+]
+[
+.BI \-h " Rechnername"
+]
+[
+.BI \-a " alias"
+]
+[
+.BI \-t N
+]
+[
+.B \-r
+]
+[
+.B \-?
+]
+.I Benutzername
+.SH BESCHREIBUNG
+.IX vacation "" "\fLvacation\fR \(em Automatische Mailantwort"
+.LP
+.B vacation
+antwortet automatisch auf eingehende Mails. Die zu verwendende
+Antwort liegt in der Datei 
+.BR .vacation.msg
+im Home-Directory.
+.\"(oder der Datei
+.\".B /usr/lib/vacation.def
+.\").
+Wird das Programm
+.B vacation
+interaktiv gestartet, dann erzeugt oder verändert es die Datei
+.BR .vacation.msg
+im eigenen Home-Directory. Die vorhergehende Datei
+.BR .vacation.msg
+wird vorher in die Datei
+.BR .vacation.old
+gesichert.
+Hierzu ist
+.B
+vacation
+ohne Argumente zu benutzen. (Siehe
+.B
+BENUTZUNG 
+weiter unten.)
+.LP
+Zum Beispiel wird folgende Nachricht von 
+.B
+vacation
+erzeugt:
+.RS
+.sp .5
+.nf
+.ft B
+Subject: away from my mail/Abwesenheit
+From:  smith (via the vacation program)
+I will not be reading my mail for a while. Your 
+mail regarding "$\s-1SUBJECT\s0" will be 
+read when I return.
+
+Ich werde einige Zeit keine Mail lesen. Ihre
+Mail bezueglich "$\s-1SUBJECT\s0" werde ich lesen,
+sobald ich zurueck bin.
+.ft R
+.fi
+.RE
+.LP
+Die Datei
+.BR .vacation.msg
+sollte wenigstens eine Zeile mit
+.RB ` Subject: '
+beinhalten (Es darf aber keine Zeile mit
+.RB ` To: '
+und keine Zeile mit
+.RB ` From: '
+verwendet werden, weil diese automatisch erzeugt werden).
+.LP
+Die Felder
+.RB ` From ',
+.RB ` From: '
+und
+.RB ` Reply-To: '
+werden in der folgenden Reihenfolge bearbeitet: Wenn es ein
+.RB ` Reply-To: ',
+gibt und die Option
+.B \-r
+angegeben wurde, dann wird diese Adresse verwendet. Andernfalls
+wird die Adresse des
+.RB ` From: ' 
+Feldes benutzt. Sollte der verwendete Eintrag keinen vollständigen Domainnamen
+besitzen (z.B. benutzer@firma anstelle von benutzer@firma.de), dann evaluiert
+.B vacation 
+das Feld
+.RB ` From '
+und konvertiert alle eingeschlossenen UUCP-Bangs (!) in eine Domain-Adresse.
+Wenn dies auch fehlschlägt, dann gibt
+.B vacation
+auf.
+.LP
+Wenn der Text
+.SB $SUBJECT
+in der Datei
+.B \&.vacation.msg
+verwendet wird, dann wird dieser durch den Betreff der eigentlichen
+Mail ersetzt, wenn die Antwort gesendet wird.
+.LP
+Keine Antwort wird gesendet, wenn die Zeile mit
+.RB ` To: '
+oder
+.RB ` Cc: '
+nicht den Benutzer enthält, an den die eigentliche Nachricht gesendet
+wurde oder eines der verschiedenen Aliasnamen, wenn die Zeile mit
+.B From
+eine der folgenden Texte enthält:
+.BR \-\s-1request\s0@ , 
+.BR postmaster , 
+.BR uucp , 
+.BR mailer-daemon ,
+.BR mailer 
+oder
+.BR -relay
+oder wenn eine Zeile mit
+.RB ` "Precedence: bulk" '
+oder
+.RB ` "Precedence: junk" '
+oder
+.RB ` "Precedence: list" '
+in den Kopfzeilen enthalten ist. Die Suche nach diesen speziellen Absendern 
+geschieht ohne Berücksichtigung der Gross- und Kleinschreibung.
+.SH OPTIONEN
+.TP
+.B \-I | \-i
+Initialisiere die Datenbank
+.B \&.vacation.db
+und starte
+.BR vacation .
+.LP
+Wenn das Argument
+.B \-I
+nicht angegeben wird aber ein 
+.I Benutzer
+Argument angegeben wird, dann liest
+.B vacation
+die erste Zeile der Standardeingabe und sucht nach dem Eintrag
+.RB ` From: '
+ohne Doppelpunkt.
+Wenn dies nicht gefunden wird, dann wird eine Fehlermeldung produziert.
+Die folgenden Optionen können verwendet werden:
+.TP
+.BI \-h " Rechnername"
+Erzwingt die Erzeugung von Emails von dem 
+.I Rechnername
+anstelle des Standard Domainnamens. Dies ist z.B. sinnvoll, wenn man
+unter Verwendung von virtuellen Domains antworten muss.
+.TP
+.BI \-a " alias"
+Zeigt an, dass der
+.I alias
+ein gültiger Alias des Benutzer ist, der
+.BR vacation
+ausführt, sodass Mails, die an diesen Alias gerichtet sind auch eine
+Antwort erhalten.
+.TP
+.B \-j
+Nicht prüfen, ob der Empfänger in einer Zeile mit
+.RB ` To: '
+oder
+.RB ` Cc: '
+enthalten ist. Immer antworten.
+.TP
+.BI \-t N
+Spezifiere das Interval zwischen erneuten Antworten zum selben Absender.
+.B N
+ist die Anzahl Tagen zwischen den erneuten Antworten. Standard ist eine Woche.
+.TP
+.BI \-r
+Wenn es eine Zeile mit
+.RB ` Reply-To: '
+gibt, dann sende an die dort angegebene Adresse.
+Andernfalls nutze die Kopfzeile mit
+.RB ` From: '
+als Antwortadresse.
+.TP
+.BI \-?
+gibt eine kurze Anleitung aus.
+.SH BENUTZUNG
+.LP
+Das Programm
+.BR vacation
+erzeugt eine Datei
+.B \&.forward
+im eigenen Home-Directory, die eine Zeile in der Form
+.IP
+\fB\e\fIBenutzername\fB, "|/usr/bin/vacation \fIBenutzername\fB"\fR
+.LP
+beinhaltet, wobei
+.I Benutzername
+der eigene Login-Name ist. Der alte Dateiinhalt von
+.B \&.forward
+wird vorher in die Datei
+.B \&.forward.old
+gesichert.
+.LP
+Danach das Kommando
+.IP
+.B vacation \-I
+.LP
+verwenden, um die Datenbank vorzubereiten.
+.LP
+Um
+.BR vacation
+zu beenden, die Datei
+.B \&.forward
+löschen oder umbenennen.
+.br
+.ne 6
+.LP
+Wird
+.B vacation
+ohne Argumente gestartet, dann erzeugt es eine neue Datei
+.B \&.vacation.msg
+und verwendet den Texteditor, der durch die Umgebungsvariable
+.SB VISUAL
+oder
+.SB EDITOR
+angegeben wird oder
+.BR vi (1) ,
+wenn keine Umgebungsvariable gesetzt ist. Wenn es keine Datei
+.B \&.forward
+im Home-Directory gibt, dann erzeugt es diese automatisch und ruft 
+.RB ` "vacation \-I" '
+auf, um
+.BR vacation
+anzuschalten.
+.SH DATEIEN
+.PD 0
+.TP 20
+.B $\s-1HOME\s0/.forward
+.\".TP
+.\".B /usr/lib/vacation.def
+.TP
+.B $\s-1HOME\s0/.vacation.msg
+.PD
+.LP
+Eine Liste von Absendern wird in der Datei
+.B \&.vacation.db
+im Home-Directory gesichert.
+.SH SIEHE AUCH
+.BR vi (1),
+.BR sendmail (8)
+.SH AUTOR
+.I vacation
+ist Copyright (c) 1983 by Eric P. Allman, University of
+Berkeley, California und Copyright (c) 1993 by Harald Milz
+(hm@seneca.ix.de). Kleinere Patches von 1998 von Mark Seuffert (moak@pirate.de).
+
+Früher betreut von Sean Rima (thecivvie@softhome.net), aber jetzt betreut 
+von Chris Samuel (chrissamuel at users.sourceforge.net) und
+Brian May (bmay at users.sourceforge.net).
+
+Deutsche Manualpage von Dr. Tilmann Bubeck (t.bubeck@reinform.de). Sie basiert auf der englischen Manualpage mit einer MD5-Prüfsumme von "4e4919c6d16c5a43ed70cd17eb2cec3e". Hiermit kann die Aktualität der deutschen Übersetzung in Bezug auf das englische Original festgestellt werden.
+

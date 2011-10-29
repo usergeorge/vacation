@@ -1,5 +1,6 @@
 2011/10/29
 - HTML manpage was out of date and unmaintained, remove it and html2man and make the .man version the master.
+- Added German translation of Vacation manual page courtesy of Dr. Tilmann Bubeck.
 
 2011/10/20
 - Ensure orighdr is only used with DEBUG enabled, keeps GCC 4.6 quiet.
