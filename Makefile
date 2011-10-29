@@ -72,7 +72,7 @@ all:	$(BIN)
 install:  all
 	install -s -m 755 $(BIN) $(VACATION)
 	install -m 755 vaclook $(VACLOOK)
-	./html2man.pl < vacation.html > $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
+	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
 	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
 
 vacation:	$(SRC) $(HDR)
