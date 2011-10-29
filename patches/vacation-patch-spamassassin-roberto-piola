@@ -1,7 +1,0 @@
-367,372d366
-< /* RPIOLA 20061026 BEGIN: Do not reply to messages flagged as spam by spamassassin */
-< /* Addition by Roberto Piola, roberto@ilpiola.it */
-<                 case 'X':
-< 			if (!strncasecmp(buf, "X-Spam-Status: Yes", 18))
-<  				discard_exit();
-< /* RPIOLA 20061026 END */

@@ -3,6 +3,7 @@
 - Added German translation of Vacation manual page courtesy of Dr. Tilmann Bubeck.
 - Moved English manpage to vacation-en.man and made vacation.man a symlink to it.
 - Removed "OLD" directory (untouched since 2000).
+- Removed the "patches" directory which contained already applied patches.
 
 2011/10/20
 - Ensure orighdr is only used with DEBUG enabled, keeps GCC 4.6 quiet.
