@@ -1,0 +1,7 @@
+Before doing a release, remember to check:
+
+1 - Correct version number in vacation.h
+2 - Correct version number in vacation.spec
+3 - ChangeLog up to date
+4 - Tag in git
+

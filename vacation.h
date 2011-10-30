@@ -36,7 +36,7 @@
 #ifndef _VACATION_H
 #define _VACATION_H
 
-#define VACVERS "1.2.7.1-beta2"
+#define VACVERS "1.2.7.1-rc1"
 #define _PATH_SED "/bin/sed"	/* which is not mentioned in paths.h */
 
 #define	MAXLINE	1024		/* max line from mail header */

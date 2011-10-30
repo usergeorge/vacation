@@ -1,3 +1,7 @@
+2011/10/30
+- Update version to rc2 in vacation.h, just in case, missed in rc1!
+- Added Release_Checklist
+
 2011/10/29
 - HTML manpage was out of date and unmaintained, remove it and html2man and make the .man version the master.
 - Added German translation of Vacation manual page courtesy of Dr. Tilmann Bubeck.
