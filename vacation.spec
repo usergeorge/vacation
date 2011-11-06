@@ -2,7 +2,7 @@ Summary: vacation, an automatic mail answering program
 Name: vacation
 Version: 1.2.7.1
 Release: 1
-Source: http://download.sourceforge.net/vacation/%{version}/vacation-%{version}.tar.gz
+Source: https://downloads.sourceforge.net/project/vacation/vacation/%{version}/vacation-%{version}.tar.gz
 License: GPL
 Group: Applications/Internet
 BuildRoot: %{_tmppath}/%{name}-buildroot
