@@ -1,6 +1,8 @@
 2011/11/08
 - Install manual pages in the correct place!
 - Install the German manual page in /usr/share/man/de/man1
+- Support "make install DESTDIR=/foo/bar" to install to a different root.
+- Simplify spec file to use make install now we support DESTDIR.
 
 2011/11/06
 - Fix location for tarballs in the vacation.spec file.

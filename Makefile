@@ -33,12 +33,12 @@ LLIBS		=
  
 ifeq "$(OS)" "FreeBSD"
 # PREFIX for FreeBSD
-PREFIX		= /usr/local
+PREFIX		= $(DESTDIR)/usr/local
 IFLAGS		= -I/usr/local/include
 LIBS		= -L/usr/local/lib -lgdbm
 else
 # PREFIX for Linux
-PREFIX		= /usr
+PREFIX		= $(DESTDIR)/usr
 endif
 
 # where things go
