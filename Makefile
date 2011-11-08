@@ -45,7 +45,7 @@ endif
 BINDIR		= $(PREFIX)/bin
 VACATION        = $(BINDIR)/vacation
 VACLOOK         = $(BINDIR)/vaclook
-MANDIR		= $(PREFIX)/man/man
+MANDIR		= $(PREFIX)/share/man
 MANEXT1		= 1
 
 VERSION 	= 1
@@ -70,10 +70,11 @@ TGZFILE		= vacation-$(VERSION).$(SUBVERSION).$(PATCHLEVEL).tar.gz
 all:	$(BIN)
 
 install:  all
-	install -s -m 755 $(BIN) $(VACATION)
-	install -m 755 vaclook $(VACLOOK)
-	install -m 444 vacation.man $(MANDIR)$(MANEXT1)/vacation.$(MANEXT1)
-	install -m 444 vaclook.man $(MANDIR)$(MANEXT1)/vaclook.$(MANEXT1)
+	install -D -s -m 755 $(BIN) $(VACATION)
+	install -D -m 755 vaclook $(VACLOOK)
+	install -D -m 444 vacation-en.man $(MANDIR)/man$(MANEXT1)/vacation.$(MANEXT1)
+	install -D -m 444 vacation-de.man $(MANDIR)/de/man$(MANEXT1)/vacation.$(MANEXT1)
+	install -D -m 444 vaclook.man $(MANDIR)/man$(MANEXT1)/vaclook.$(MANEXT1)
 
 vacation:	$(SRC) $(HDR)
 	$(CC) $(CFLAGS) $(IFLAGS) $(PFLAGS) $(LFLAGS) -D_PATH_VACATION=\"$(VACATION)\" -o $(BIN) $(SRC) $(LIBS)

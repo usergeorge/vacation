@@ -26,11 +26,13 @@ rm -rf $RPM_BUILD_ROOT
 
 mkdir -p $RPM_BUILD_ROOT%{_bindir}
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man1
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/de/man1
 
-install -s -m 755 vacation     $RPM_BUILD_ROOT%{_bindir}/vacation
-install -m 755 vaclook         $RPM_BUILD_ROOT%{_bindir}/vaclook
-install -m 444 vacation.man    $RPM_BUILD_ROOT%{_mandir}/man1/vacation.1
-install -m 444 vaclook.man     $RPM_BUILD_ROOT%{_mandir}/man1/vaclook.1
+install -D -s -m 755 vacation     $RPM_BUILD_ROOT%{_bindir}/vacation
+install -D -m 755 vaclook         $RPM_BUILD_ROOT%{_bindir}/vaclook
+install -D -m 444 vacation-en.man    $RPM_BUILD_ROOT%{_mandir}/man1/vacation.1
+install -D -m 444 vacation-de.man    $RPM_BUILD_ROOT%{_mandir}/de/man1/vacation.1
+install -D -m 444 vaclook.man     $RPM_BUILD_ROOT%{_mandir}/man1/vaclook.1
 
 
 %clean
@@ -40,11 +42,15 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %attr (-,root,root) %{_bindir}/vacation
 %attr (-,root,root) %{_bindir}/vaclook
-%attr (-,root,root) %{_mandir}/*/*
+%attr (-,root,root) %{_mandir}/man1/*.1
+%attr (-,root,root) %{_mandir}/*/man1/*.1
 %doc %attr (-,root,root) COPYING README README.smrsh ChangeLog
 
 
 %changelog
+* Tue Nov 08 2011 Chris Samuel <chris@csamuel.org>
+- Add German translation of manpage to spec file.
+
 * Sun Nov 06 2011 Chris Samuel <chris@csamuel.org>
 - upgrade to version 1.2.7.1
 

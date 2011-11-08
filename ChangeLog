@@ -1,3 +1,7 @@
+2011/11/08
+- Install manual pages in the correct place!
+- Install the German manual page in /usr/share/man/de/man1
+
 2011/11/06
 - Fix location for tarballs in the vacation.spec file.
 - Tagged and released Vacation 1.2.7.1.
