@@ -5,8 +5,16 @@
 #
 SHELL		= /bin/sh
 CC		= gcc
-ARCH		= $(uname -m)
-OS		= $(uname -s)
+ARCH		= $(shell uname -m)
+OS		= $(shell uname -s)
+# Some git logic for the gitpackage target.
+GIT		= $(shell bash -c "type -p git")
+ifeq "$(GIT)" ""
+GITCOMMAND="echo The git command is not installed, or not in your PATH, sorry."
+else
+GITVERSION=$(shell test -d .git && git describe)
+GITCOMMAND="git archive --prefix=$(GITVERSION)/ --output=../$(GITVERSION).tar.gz $(GITVERSION)"
+endif
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
 CFLAGS		= $(RPM_OPT_FLAGS) -g -Wall
@@ -95,3 +103,6 @@ package: all
 	strip vacation
 	tar cvf - $(PACKAGE) | gzip > ../$(TGZFILE)
 
+gitpackage: clean
+	@if [ \! -d .git ]; then echo "This is not a git managed directory, sorry!"; exit 1; fi
+	eval $(GITCOMMAND)

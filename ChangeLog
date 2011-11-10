@@ -1,3 +1,7 @@
+2011/11/10
+- Added "make gitpackage" to make life easier for us maintainers!
+- Also fixed up the setting of the ARCH and OS variables using the GNU make $(shell cmd) syntax, they were never getting set previously.
+
 2011/11/08
 - Install manual pages in the correct place!
 - Install the German manual page in /usr/share/man/de/man1
