@@ -106,3 +106,6 @@ package: all
 gitpackage: clean
 	@if [ \! -d .git ]; then echo "This is not a git managed directory, sorry!"; exit 1; fi
 	eval $(GITCOMMAND)
+	tar -C .. -xf ../$(GITVERSION).tar.gz
+	sed -i -e "s/GITVERSION/$(GITVERSION)/" ../$(GITVERSION)/vacation.h
+	tar -C .. --remove-files -czf ../$(GITVERSION).tar.gz $(GITVERSION)
