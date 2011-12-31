@@ -108,4 +108,5 @@ gitpackage: clean
 	eval $(GITCOMMAND)
 	tar -C .. -xf ../$(GITVERSION).tar.gz
 	sed -i -e "s/GITVERSION/$(GITVERSION)/" ../$(GITVERSION)/vacation.h
+	sed -i -e "s/GITVERSION/$(GITVERSION)/" ../$(GITVERSION)/vacation.spec
 	tar -C .. --remove-files -czf ../$(GITVERSION).tar.gz $(GITVERSION)

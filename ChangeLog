@@ -1,3 +1,9 @@
+2011/12/31
+- Automated updating of version number in vacation.spec with "make gitpackage"
+
+2011/11/23
+- Automated updating of version number in vacation.h with "make gitpackage"
+
 2011/11/10
 - Added "make gitpackage" to make life easier for us maintainers!
 - Also fixed up the setting of the ARCH and OS variables using the GNU make $(shell cmd) syntax, they were never getting set previously.
