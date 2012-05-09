@@ -4,7 +4,7 @@ NAME:
    rfc822.c -- code for slicing and dicing RFC822 mail headers
 
 ENTRY POINTS:
-   nextaddr() -- parse the next address out of an RFC822 header
+   nxtaddr() -- parse the next address out of an RFC822 header
    reply_hack() -- append hostname to local header addresses 
 
 THEORY:

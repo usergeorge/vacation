@@ -1,3 +1,6 @@
+2012/05/09
+- Fixed typo in function name in comment in rfc822.c
+
 2011/12/31
 - Automated updating of version number in vacation.spec with "make gitpackage"
 
