@@ -1,3 +1,7 @@
+2011/11/06
+- Fix location for tarballs in the vacation.spec file.
+- Tagged and released Vacation 1.2.7.1.
+
 2011/10/30
 - Update version to rc2 in vacation.h, just in case, missed in rc1!
 - Added Release_Checklist
