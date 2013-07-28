@@ -27,7 +27,7 @@ testroot () {
 	then
 	LOGNAME=$(whoami)
     fi
-    
+
     if [ "$LOGNAME" != "root" ]
     then
         return 1
@@ -39,7 +39,7 @@ ALIASES=/etc/aliases
 VACATION=/usr/bin/vacation
 PROG=$(basename $0)
 
-                                                                               
+
 if [ ! -x "$VACATION" -o ! -s "$VACATION" ]
 then
   echo There appears to be no vacation executable
@@ -72,19 +72,19 @@ then
   if [ "$operation" != "on" -a "$operation" != "off" ]
   then
   echo "usage: $PROG user [on|off]"
-  exit 1    
+  exit 1
   fi
 else
   operation=list
 fi
 
 if ! userexists "$user"
-then 
+then
   echo user $user does not exist
   exit 1
 fi
 if ! userhasshell "$user"
-then 
+then
   echo user $user does not have a shell
   exit 1
 fi
@@ -132,13 +132,13 @@ EOF
 	  if [ -s $FWD ]
 	  then
 	    echo forward file exists but no vacation database file
-	  else 
+	  else
 	    echo off
 	  fi
 	fi
 	;;
 
-    *) 
+    *)
 	echo bogus operation
 	exit 1
 	;;

@@ -1,6 +1,7 @@
 2013/07/28
 - Added a BuildRequires for gdbm-devel to the RPM spec file (from Richard Keech).
 - Added SELinux information about Postfix on CentOS to INSTALL (from Richard Keech).
+- Added the contrib script "chkvacation" to enable/disable and check vacation status (from Richard Keech).
 
 2012/05/09
 - Fixed typo in function name in comment in rfc822.c
