@@ -1,0 +1,149 @@
+#!/bin/bash
+# name:         chkvac
+# description:  utility in the manner of chkconfig for control of vacation.
+# author:       G.R.Keech <richard.keech@gmail.com>
+# Copyright (c) G.R.Keech 2003
+# License: GPLv2
+#--------------------------------------------------------------------------
+# Test whether a user account exists.
+userexists () {
+    grep "^${1}:" /etc/passwd &> /dev/null
+    return $?
+}
+#-------------------------------------------------------------------------
+# Check is user has an interactive shell
+userhasshell () {
+	shell=$(grep $1 /etc/passwd | cut -d: -f 7)
+	case $shell in
+		"/bin/bash") return 0;;
+		"/bin/rbash") return 0;;
+		*) return 1 ;;
+	esac
+}
+#-------------------------------------------------------------------------
+# Fails if not running as root
+testroot () {
+    if [ "_${LOGNAME}" = "_" ]
+	then
+	LOGNAME=$(whoami)
+    fi
+    
+    if [ "$LOGNAME" != "root" ]
+    then
+        return 1
+    fi
+}
+#-------------------------------------------------------------------------
+# Start of main block
+ALIASES=/etc/aliases
+VACATION=/usr/bin/vacation
+PROG=$(basename $0)
+
+                                                                               
+if [ ! -x "$VACATION" -o ! -s "$VACATION" ]
+then
+  echo There appears to be no vacation executable
+  exit 1
+fi
+
+if [ ! -f "$ALIASES" -o ! -s "$ALIASES" ]
+then
+  echo aliases file $ALIASES does not exist or is empty
+  exit 1
+fi
+
+if [ $# -eq 0 -o $# -gt 2 ]
+then
+  echo "usage: $PROG user [on|off]"
+  exit 1
+fi
+
+user=$1
+
+if [ "$user" = "root" ]
+then
+  echo "It is not appropriate to set vacation for root."
+  exit 1
+fi
+
+if [ $# -eq 2 ]
+then
+  operation=$2
+  if [ "$operation" != "on" -a "$operation" != "off" ]
+  then
+  echo "usage: $PROG user [on|off]"
+  exit 1    
+  fi
+else
+  operation=list
+fi
+
+if ! userexists "$user"
+then 
+  echo user $user does not exist
+  exit 1
+fi
+if ! userhasshell "$user"
+then 
+  echo user $user does not have a shell
+  exit 1
+fi
+FWD=/home/${user}/.forward
+VACDB=/home/${user}/.vacation.db
+# -------------------------------------------------------------
+# If we've got this far then everything seems to be in order
+# so lets actually do someting.
+
+case "$operation" in
+
+    "on")
+	echo "\\${user}, \"|/usr/bin/vacation ${user}\"" > $FWD
+	chmod 600 $FWD
+	if testroot
+	then
+	  chown ${user}.${user} $FWD
+	fi
+	$VACATION -I ${user}
+	chown ${user}.${user} $VACDB
+	if [ ! -s /home/${user}/.vacation.msg ]
+	then
+	  cat > /home/${user}/.vacation.msg <<EOF
+Subject: away from my mail
+
+I will not be reading my mail for a while.
+Your mail concerning "\$SUBJECT"
+will be read when I'm back.
+EOF
+	  chown ${user}.${user} /home/${user}/.vacation.msg
+	  echo default vacation message created
+        fi
+	;;
+
+    "off")
+	rm -f $VACDB &> /dev/null
+	rm -f $FWD &> /dev/null
+	;;
+
+    "list")
+	if [ -s $FWD -a -s $VACDB ]
+	then
+	  echo on
+	else
+	  if [ -s $FWD ]
+	  then
+	    echo forward file exists but no vacation database file
+	  else 
+	    echo off
+	  fi
+	fi
+	;;
+
+    *) 
+	echo bogus operation
+	exit 1
+	;;
+esac
+
+
+
+
