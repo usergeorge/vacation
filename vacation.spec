@@ -7,6 +7,7 @@ License: GPL
 Group: Applications/Internet
 BuildRoot: %{_tmppath}/%{name}-buildroot
 Requires: perl >= 5
+BuildRequires: gdbm-devel
 
 %description
 Vacation is the automatic mail answering program
