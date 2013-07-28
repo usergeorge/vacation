@@ -10,6 +10,16 @@ or, for FreeBSD, 'gmake install'.
 That should install both the vacation binary and the man page to the
 desired location.
 
+If you are using SELinux you may find that you need to relax the Postfix
+SELinux policy slightly to get vacation to work.  It has been reported
+that the following rules fix things up on CentOS.
+
+#============= postfix_local_t ==============
+allow postfix_local_t sendmail_exec_t:file execute;
+
+#============= postfix_postdrop_t ==============
+allow postfix_postdrop_t postfix_local_t:unix_stream_socket { read write getattr };
+
 N.B. If you encounter any difficulty in installing vacation, let me know.
 
 For more info about the programs, see the man pages.
