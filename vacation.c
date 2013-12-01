@@ -280,13 +280,25 @@ readheaders (void)
   register ALIAS *cur;
   register char *p;
   int tome, cont;
-  char buf[MAXLINE];
+  char buf[MAXLINE]; /* actual line */
+  char buf2[MAXLINE]; /* next line */
   char uucpfrom[MAXLINE];
 /*  char sender[MAXLINE]; */
 /*  char domain[MAXLINE]; */
 
   cont = tome = 0;
-  while (fgets (buf, sizeof (buf), stdin) && *buf != '\n')
+  fgets (buf, sizeof (buf), stdin);
+  if (*buf != '\n')
+    fgets (buf2, sizeof (buf2), stdin);
+  while (*buf != '\n')
+   {
+    while (*buf2 != '\n' && ((buf2)[0] == ' ' || (buf2)[0] == '\t') &&
+	strlen (buf) + strlen (buf2) < MAXLINE) /* only to buf capacity */
+      { /* it's OK for "From:" and it doesn't matter for "To:" and "Cc:" */
+	(buf)[strlen (buf) - 1] = '\0'; /* remove '\n' */
+	strlcat (buf, buf2, MAXLINE);
+	fgets (buf2, sizeof (buf2), stdin);
+      }
     switch (toupper (*buf))
       {
       case 'F':		/* "From: " or "From " */
@@ -414,6 +426,10 @@ readheaders (void)
 	for (cur = names; !tome && cur; cur = cur->next)
 	  tome += nsearch (cur->name, buf);
       }
+    strlcpy (buf, buf2, MAXLINE);
+    if (*buf != '\n')
+      fgets (buf2, sizeof (buf2), stdin);
+   }
   if (!jflag && !tome)
     exit (0);
   if (!*from)
