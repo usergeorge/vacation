@@ -1,3 +1,6 @@
+2013/12/26
+- Added -Werror=format-security to CFLAGS for extra security checking.
+
 2013/12/01
 - Patch to handle long (folded) headers from Zdenek Havranek
 
