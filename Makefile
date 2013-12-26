@@ -17,7 +17,7 @@ GITCOMMAND="git archive --prefix=$(GITVERSION)/ --output=../$(GITVERSION).tar.gz
 endif
 #
 # Default CFLAGS for all builds, architecture flags get appended below.
-CFLAGS		= $(RPM_OPT_FLAGS) -g -Wall
+CFLAGS		= $(RPM_OPT_FLAGS) -g -Wall -Werror=format-security
 ifeq "$(ARCH)" "x86_64"
 # Uncomment below for backwards compatibility of gdbm files.
 #  CFLAGS       = $(CFLAGS) -m32
