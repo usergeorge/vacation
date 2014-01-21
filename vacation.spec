@@ -37,6 +37,10 @@ rm -rf ${RPM_BUILD_ROOT}
 
 
 %changelog
+* Tue Jan 21 2014 Chris Samuel <chris@csamuel.org>
+- upgrade to version 1.2.8.0-beta1
+- version in spec file now automatically populated from git.
+
 * Tue Nov 08 2011 Chris Samuel <chris@csamuel.org>
 - Add German translation of manpage to spec file.
 - Simplify spec file to just use make install now we support DESTDIR.

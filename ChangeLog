@@ -1,3 +1,6 @@
+2014/01/21
+- Tagged and released 1.2.8.0-beta1
+
 2013/12/26
 - Added -Werror=format-security to CFLAGS for extra security checking.
 
